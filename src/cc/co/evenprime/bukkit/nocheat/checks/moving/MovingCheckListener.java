@@ -208,7 +208,7 @@ public class MovingCheckListener implements Listener, EventManager {
         final MovingConfig cc = MovingCheck.getConfig(player);
         final MovingData data = MovingCheck.getData(player);
 
-        if (event.getPlayer().getAllowFlight()) {
+        if (event.getPlayer().isOp() || event.getPlayer().getAllowFlight()) {
             data.teleportTo.set(event.getTo());
             data.to.set(event.getTo());
             data.runflySetBackPoint.set(event.getTo());
