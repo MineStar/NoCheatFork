@@ -19,7 +19,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import cc.co.evenprime.bukkit.nocheat.checks.WorkaroundsListener;
 import cc.co.evenprime.bukkit.nocheat.checks.blockbreak.BlockBreakCheckListener;
 import cc.co.evenprime.bukkit.nocheat.checks.blockplace.BlockPlaceCheckListener;
-import cc.co.evenprime.bukkit.nocheat.checks.chat.ChatCheckListener;
 import cc.co.evenprime.bukkit.nocheat.checks.fight.FightCheckListener;
 import cc.co.evenprime.bukkit.nocheat.checks.inventory.InventoryCheckListener;
 import cc.co.evenprime.bukkit.nocheat.checks.moving.MovingCheckListener;
@@ -95,7 +94,6 @@ public class NoCheat extends JavaPlugin implements Listener {
         // Then set up the event listeners
         eventManagers.add(new MovingCheckListener(this));
         eventManagers.add(new WorkaroundsListener());
-        eventManagers.add(new ChatCheckListener(this));
         eventManagers.add(new BlockBreakCheckListener(this));
         eventManagers.add(new BlockPlaceCheckListener(this));
         eventManagers.add(new FightCheckListener(this));

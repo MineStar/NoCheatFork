@@ -6,6 +6,7 @@ import java.util.TreeMap;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -151,11 +152,13 @@ public class FMProtectionPL implements Listener {
 
     // ADD PERMISSION
     public void addPermission(Player player, boolean showMSG) {
-        player.setAllowFlight(true);
-        if (showMSG)
-            player.sendMessage(ChatColor.AQUA + "[FlyZone] " + ChatColor.GREEN + "You have entered your Flymod-Zone!");
+        if (player.getGameMode() != GameMode.ADVENTURE) {
+            player.setAllowFlight(true);
+            if (showMSG)
+                player.sendMessage(ChatColor.AQUA + "[FlyZone] " + ChatColor.GREEN + "You have entered your Flymod-Zone!");
 
-        inZone.put(player.getName(), true);
+            inZone.put(player.getName(), true);
+        }
     }
 
     // ///////////////////////////////////

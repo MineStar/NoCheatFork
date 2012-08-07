@@ -112,7 +112,7 @@ public class GodmodeCheck extends FightCheck {
                             if(entity.getHealth() <= 0 && !entity.dead) {
                                 // Artifically "kill" him
                                 entity.deathTicks = 19;
-                                entity.a(true);
+                                entity.die();
                             }
                         } catch(Exception e) {}
                     }

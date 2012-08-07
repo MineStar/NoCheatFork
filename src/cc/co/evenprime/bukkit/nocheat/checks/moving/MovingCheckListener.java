@@ -2,6 +2,8 @@ package cc.co.evenprime.bukkit.nocheat.checks.moving;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
@@ -208,7 +210,7 @@ public class MovingCheckListener implements Listener, EventManager {
         final MovingConfig cc = MovingCheck.getConfig(player);
         final MovingData data = MovingCheck.getData(player);
 
-        if (event.getPlayer().isOp() || event.getPlayer().getAllowFlight()) {
+        if ((event.getPlayer().isOp() && event.getPlayer().getGameMode() != GameMode.ADVENTURE) || event.getPlayer().getAllowFlight()) {
             data.teleportTo.set(event.getTo());
             data.to.set(event.getTo());
             data.runflySetBackPoint.set(event.getTo());
