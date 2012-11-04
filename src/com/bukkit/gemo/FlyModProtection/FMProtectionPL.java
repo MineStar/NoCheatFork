@@ -8,6 +8,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -69,8 +70,12 @@ public class FMProtectionPL implements Listener {
     }
 
     private void doZoneCheck(Player player, Location from, Location to) {
-        if (player.isOp())
+        if (player.isOp()) {
+            if (player.getGameMode() != GameMode.ADVENTURE) {
+                player.setAllowFlight(true);
+            }
             return;
+        }
 
         // CHECK TIME
         if (System.currentTimeMillis() <= timeMap.get(player.getName())) {
@@ -127,6 +132,8 @@ public class FMProtectionPL implements Listener {
                 // IN AREA = ADD PERMISSION
                 if (!player.getAllowFlight()) {
                     addPermission(player, true);
+                    CraftPlayer cplayer = (CraftPlayer) player;
+                    cplayer.getHandle().onGround = true;
                     return;
                 }
             }
@@ -136,6 +143,9 @@ public class FMProtectionPL implements Listener {
     // REMOVE PERMISSION
     public void removePermission(Player player, boolean showMSG) {
         player.setAllowFlight(false);
+        player.setFlying(false);
+        CraftPlayer cplayer = (CraftPlayer) player;
+        cplayer.getHandle().onGround = true;
         if (showMSG) {
             String playerName = player.getName();
             if (inZone.containsKey(playerName)) {
@@ -149,18 +159,19 @@ public class FMProtectionPL implements Listener {
             inZone.put(playerName, false);
         }
     }
-
     // ADD PERMISSION
     public void addPermission(Player player, boolean showMSG) {
         if (player.getGameMode() != GameMode.ADVENTURE) {
             player.setAllowFlight(true);
+            player.setFlying(true);
+            CraftPlayer cplayer = (CraftPlayer) player;
+            cplayer.getHandle().onGround = true;
             if (showMSG)
                 player.sendMessage(ChatColor.AQUA + "[FlyZone] " + ChatColor.GREEN + "You have entered your Flymod-Zone!");
 
             inZone.put(player.getName(), true);
         }
     }
-
     // ///////////////////////////////////
     //
     // RESET METHODS

@@ -12,8 +12,8 @@ import cc.co.evenprime.bukkit.nocheat.NoCheatPlayer;
 import cc.co.evenprime.bukkit.nocheat.data.PreciseLocation;
 
 /**
- * Some stuff that's used by different checks or just too complex to keep
- * in other places
+ * Some stuff that's used by different checks or just too complex to keep in
+ * other places
  * 
  */
 public class CheckUtil {
@@ -46,7 +46,7 @@ public class CheckUtil {
         off += Math.max(Math.abs(z - zPrediction) - (targetWidth / 2 + precision), 0.0D);
         off += Math.max(Math.abs(y - yPrediction) - (targetHeight / 2 + precision), 0.0D);
 
-        if(off > 1) {
+        if (off > 1) {
             off = Math.sqrt(off);
         }
 
@@ -72,45 +72,45 @@ public class CheckUtil {
         return Math.max(distance - limit, 0.0D);
     }
 
-    private final static double        magic    = 0.45D;
-    private final static double        magic2   = 0.55D;
+    private final static double magic = 0.45D;
+    private final static double magic2 = 0.55D;
 
-    private static final int           NONSOLID = 1;                      // 0x00000001
-    private static final int           SOLID    = 2;                      // 0x00000010
+    private static final int NONSOLID = 1; // 0x00000001
+    private static final int SOLID = 2; // 0x00000010
 
     // All liquids are "nonsolid" too
-    private static final int           LIQUID   = 4 | NONSOLID;           // 0x00000101
+    private static final int LIQUID = 4 | NONSOLID; // 0x00000101
 
     // All ladders are "nonsolid" and "solid" too
-    private static final int           LADDER   = 8 | NONSOLID | SOLID;   // 0x00001011
+    private static final int LADDER = 8 | NONSOLID | SOLID; // 0x00001011
 
     // All fences are solid - fences are treated specially due
     // to being 1.5 blocks high
-    private static final int           FENCE    = 16 | SOLID | NONSOLID;  // 0x00010011
+    private static final int FENCE = 16 | SOLID | NONSOLID; // 0x00010011
 
-    private static final int           INGROUND = 128;
-    private static final int           ONGROUND = 256;
+    private static final int INGROUND = 128;
+    private static final int ONGROUND = 256;
 
     // Until I can think of a better way to determine if a block is solid or
     // not, this is what I'll do
-    private static final int           types[];
+    private static final int types[];
 
-    private static final Set<Material> foods    = new HashSet<Material>();
+    private static final Set<Material> foods = new HashSet<Material>();
 
     static {
         types = new int[256];
 
         // Find and define properties of all other blocks
-        for(int i = 0; i < types.length; i++) {
+        for (int i = 0; i < types.length; i++) {
 
             // Everything unknown is considered nonsolid and solid
             types[i] = NONSOLID | SOLID;
 
-            if(Block.byId[i] != null) {
-                if(Block.byId[i].material.isSolid()) {
+            if (Block.byId[i] != null) {
+                if (Block.byId[i].material.isSolid()) {
                     // STONE, CAKE, LEAFS, ...
                     types[i] = SOLID;
-                } else if(Block.byId[i].material.isLiquid()) {
+                } else if (Block.byId[i].material.isLiquid()) {
                     // WATER, LAVA, ...
                     types[i] = LIQUID;
                 } else {
@@ -131,6 +131,7 @@ public class CheckUtil {
 
         // Obvious
         types[Material.LADDER.getId()] = LADDER;
+        types[Material.VINE.getId()] = LADDER;
         types[Material.FENCE.getId()] = FENCE;
         types[Material.FENCE_GATE.getId()] = FENCE;
         types[Material.NETHER_FENCE.getId()] = FENCE;
@@ -161,14 +162,10 @@ public class CheckUtil {
         types[Material.WATER_LILY.getId()] = SOLID | NONSOLID;
 
         /*
-         * for(int i = 0; i < 256; i++) {
-         * if(Block.byId[i] != null) {
-         * System.out.println(Material.getMaterial(i) +
-         * (isSolid(types[i]) ? " solid " : "") + (isNonSolid(types[i])
-         * ? " nonsolid " : "") + (isLiquid(types[i]) ? " liquid " :
-         * ""));
-         * }
-         * }
+         * for(int i = 0; i < 256; i++) { if(Block.byId[i] != null) {
+         * System.out.println(Material.getMaterial(i) + (isSolid(types[i]) ?
+         * " solid " : "") + (isNonSolid(types[i]) ? " nonsolid " : "") +
+         * (isLiquid(types[i]) ? " liquid " : "")); } }
          */
 
         // We need to know what is considered food for the instanteat check
@@ -191,9 +188,9 @@ public class CheckUtil {
     }
 
     /**
-     * Ask NoCheat what it thinks about a certain location.
-     * Is it a place where a player can safely stand, should
-     * it be considered as being inside a liquid etc.
+     * Ask NoCheat what it thinks about a certain location. Is it a place where
+     * a player can safely stand, should it be considered as being inside a
+     * liquid etc.
      * 
      * @param world
      *            The world the coordinates belong to
@@ -219,9 +216,9 @@ public class CheckUtil {
         result |= evaluateSimpleLocation(world, upperX, Y, upperZ);
         result |= evaluateSimpleLocation(world, lowerX, Y, upperZ);
 
-        if(!isInGround(result)) {
+        if (!isInGround(result)) {
             // Original location: X, Z (allow standing in walls this time)
-            if(isSolid(types[world.getBlockTypeIdAt(Location.locToBlock(location.x), Location.locToBlock(location.y), Location.locToBlock(location.z))])) {
+            if (isSolid(types[world.getBlockTypeIdAt(Location.locToBlock(location.x), Location.locToBlock(location.y), Location.locToBlock(location.z))])) {
                 result |= INGROUND;
             }
         }
@@ -230,9 +227,8 @@ public class CheckUtil {
     }
 
     /**
-     * Evaluate a location by only looking at a specific
-     * "column" of the map to find out if that "column"
-     * would allow a player to stand, swim etc. there
+     * Evaluate a location by only looking at a specific "column" of the map to
+     * find out if that "column" would allow a player to stand, swim etc. there
      * 
      * @param world
      * @param x
@@ -251,39 +247,39 @@ public class CheckUtil {
         int type = 0;
         // Special case: Standing on a fence
         // Behave as if there is a block on top of the fence
-        if((below == FENCE) && base != FENCE && isNonSolid(top)) {
+        if ((below == FENCE) && base != FENCE && isNonSolid(top)) {
             type = INGROUND;
         }
 
         // Special case: Fence
         // Being a bit above a fence
-        else if(below != FENCE && isNonSolid(base) && types[world.getBlockTypeIdAt(x, y - 2, z)] == FENCE) {
+        else if (below != FENCE && isNonSolid(base) && types[world.getBlockTypeIdAt(x, y - 2, z)] == FENCE) {
             type = ONGROUND;
         }
 
-        else if(isNonSolid(top)) {
+        else if (isNonSolid(top)) {
             // Simplest (and most likely) case:
             // Below the player is a solid block
-            if(isSolid(below) && isNonSolid(base)) {
+            if (isSolid(below) && isNonSolid(base)) {
                 type = ONGROUND;
             }
 
             // Next (likely) case:
             // There is a ladder
-            else if(isLadder(base) || isLadder(top)) {
+            else if (isLadder(base) || isLadder(top)) {
                 type = ONGROUND;
             }
 
             // Next (likely) case:
             // At least the block the player stands
             // in is solid
-            else if(isSolid(base)) {
+            else if (isSolid(base)) {
                 type = INGROUND;
             }
         }
 
         // (In every case, check for water)
-        if(isLiquid(base) || isLiquid(top)) {
+        if (isLiquid(base) || isLiquid(top)) {
             type |= LIQUID | INGROUND;
         }
 
@@ -299,11 +295,11 @@ public class CheckUtil {
     }
 
     private static final boolean isNonSolid(final int value) {
-        return((value & NONSOLID) == NONSOLID);
+        return ((value & NONSOLID) == NONSOLID);
     }
 
     private static final boolean isLadder(final int value) {
-        return((value & LADDER) == LADDER);
+        return ((value & LADDER) == LADDER);
     }
 
     public static final boolean isOnGround(final int fromType) {
@@ -325,7 +321,7 @@ public class CheckUtil {
 
         final double floor = Math.floor(d1);
 
-        if(floor + magic <= d1)
+        if (floor + magic <= d1)
             return (int) (floor);
         else
             return (int) (floor - 1);
@@ -342,7 +338,7 @@ public class CheckUtil {
 
         final double floor = Math.floor(d1);
 
-        if(floor + magic2 < d1)
+        if (floor + magic2 < d1)
             return (int) (floor + 1);
         else
             return (int) floor;
@@ -353,7 +349,7 @@ public class CheckUtil {
     }
 
     public static boolean isFood(ItemStack item) {
-        if(item == null)
+        if (item == null)
             return false;
         return foods.contains(item.getType());
     }
