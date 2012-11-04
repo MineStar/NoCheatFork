@@ -1,9 +1,7 @@
 package cc.co.evenprime.bukkit.nocheat.config;
 
 /**
- * These are the default settings for NoCheat. They will be used
- * in addition to/in replacement of configurations given in the
- * config.yml file
+ * These are the default settings for NoCheat. They will be used in addition to/in replacement of configurations given in the config.yml file
  * 
  */
 public class DefaultConfiguration extends NoCheatConfiguration {

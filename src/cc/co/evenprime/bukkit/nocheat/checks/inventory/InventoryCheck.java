@@ -7,8 +7,7 @@ import cc.co.evenprime.bukkit.nocheat.config.ConfigurationCacheStore;
 import cc.co.evenprime.bukkit.nocheat.data.DataStore;
 
 /**
- * Abstract base class for Inventory checks, provides some convenience
- * methods for access to data and config that's relevant to this checktype
+ * Abstract base class for Inventory checks, provides some convenience methods for access to data and config that's relevant to this checktype
  */
 public abstract class InventoryCheck extends Check {
 
@@ -19,8 +18,7 @@ public abstract class InventoryCheck extends Check {
     }
 
     /**
-     * Get the "InventoryData" object that belongs to the player. Will ensure
-     * that such a object exists and if not, create one
+     * Get the "InventoryData" object that belongs to the player. Will ensure that such a object exists and if not, create one
      * 
      * @param player
      * @return
@@ -28,7 +26,7 @@ public abstract class InventoryCheck extends Check {
     public static InventoryData getData(NoCheatPlayer player) {
         DataStore base = player.getDataStore();
         InventoryData data = base.get(id);
-        if(data == null) {
+        if (data == null) {
             data = new InventoryData();
             base.set(id, data);
         }
@@ -36,8 +34,7 @@ public abstract class InventoryCheck extends Check {
     }
 
     /**
-     * Get the InventoryConfig object that belongs to the world that the player
-     * currently resides in.
+     * Get the InventoryConfig object that belongs to the world that the player currently resides in.
      * 
      * @param player
      * @return
@@ -48,7 +45,7 @@ public abstract class InventoryCheck extends Check {
 
     public static InventoryConfig getConfig(ConfigurationCacheStore cache) {
         InventoryConfig config = cache.get(id);
-        if(config == null) {
+        if (config == null) {
             config = new InventoryConfig(cache.getConfiguration());
             cache.set(id, config);
         }

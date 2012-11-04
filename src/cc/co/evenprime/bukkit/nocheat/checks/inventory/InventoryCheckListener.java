@@ -20,17 +20,16 @@ import cc.co.evenprime.bukkit.nocheat.config.ConfigurationCacheStore;
 import cc.co.evenprime.bukkit.nocheat.config.Permissions;
 
 /**
- * Central location to listen to events that are 
- * relevant for the inventory checks
+ * Central location to listen to events that are relevant for the inventory checks
  * 
  */
 public class InventoryCheckListener implements Listener, EventManager {
 
-    private final DropCheck       dropCheck;
+    private final DropCheck dropCheck;
     private final InstantBowCheck instantBowCheck;
     private final InstantEatCheck instantEatCheck;
 
-    private final NoCheat         plugin;
+    private final NoCheat plugin;
 
     public InventoryCheckListener(NoCheat plugin) {
 
@@ -43,12 +42,14 @@ public class InventoryCheckListener implements Listener, EventManager {
 
     /**
      * We listen to DropItem Event for the dropCheck
-     * @param event The PlayerDropItem Event
+     * 
+     * @param event
+     *            The PlayerDropItem Event
      */
     @EventHandler(priority = EventPriority.LOWEST)
     protected void handlePlayerDropItemEvent(final PlayerDropItemEvent event) {
 
-        if(event.isCancelled() || event.getPlayer().isDead())
+        if (event.isCancelled() || event.getPlayer().isDead())
             return;
 
         boolean cancelled = false;
@@ -58,11 +59,11 @@ public class InventoryCheckListener implements Listener, EventManager {
         final InventoryData data = InventoryCheck.getData(player);
 
         // If it should be executed, do it
-        if(cc.dropCheck && !player.hasPermission(Permissions.INVENTORY_DROP)) {
+        if (cc.dropCheck && !player.hasPermission(Permissions.INVENTORY_DROP)) {
             cancelled = dropCheck.check(player, data, cc);
         }
 
-        if(cancelled) {
+        if (cancelled) {
             // Cancelling drop events is not save (in certain circumstances
             // items will disappear completely). So don't do it and kick
             // players instead by default
@@ -72,25 +73,26 @@ public class InventoryCheckListener implements Listener, EventManager {
     }
 
     /**
-     * We listen to PlayerInteractEvent for the instantEat and instantBow
-     * checks
-     * @param event The PlayerInteractEvent
+     * We listen to PlayerInteractEvent for the instantEat and instantBow checks
+     * 
+     * @param event
+     *            The PlayerInteractEvent
      */
     @EventHandler(priority = EventPriority.LOWEST)
     public void interact(final PlayerInteractEvent event) {
 
         // Only interested in right-clicks while holding an item
-        if(!event.hasItem() || !(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK))
+        if (!event.hasItem() || !(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK))
             return;
 
         NoCheatPlayer player = plugin.getPlayer(event.getPlayer());
         final InventoryData data = InventoryCheck.getData(player);
 
-        if(event.getItem().getType() == Material.BOW) {
+        if (event.getItem().getType() == Material.BOW) {
             // It was a bow, the player starts to pull the string
             // Remember this time
             data.lastBowInteractTime = System.currentTimeMillis();
-        } else if(CheckUtil.isFood(event.getItem())) {
+        } else if (CheckUtil.isFood(event.getItem())) {
             // It was food, the player starts to eat some food
             // Remember this time and the type of food
             data.foodMaterial = event.getItem().getType();
@@ -104,21 +106,21 @@ public class InventoryCheckListener implements Listener, EventManager {
     }
 
     /**
-     * We listen to FoodLevelChange Event because Bukkit doesn't provide a
-     * PlayerFoodEating Event (or whatever it would be called).
+     * We listen to FoodLevelChange Event because Bukkit doesn't provide a PlayerFoodEating Event (or whatever it would be called).
      * 
-     * @param event The FoodLevelChangeEvent
+     * @param event
+     *            The FoodLevelChangeEvent
      */
     @EventHandler(priority = EventPriority.LOWEST)
     public void foodchanged(final FoodLevelChangeEvent event) {
         // Only if a player ate food
-        if(!event.isCancelled() && event.getEntity() instanceof Player) {
+        if (!event.isCancelled() && event.getEntity() instanceof Player) {
             final NoCheatPlayer player = plugin.getPlayer((Player) event.getEntity());
             final InventoryConfig cc = InventoryCheck.getConfig(player);
             final InventoryData data = InventoryCheck.getData(player);
 
             // Only if he should get checked
-            if(cc.eatCheck && !player.hasPermission(Permissions.INVENTORY_INSTANTEAT)) {
+            if (cc.eatCheck && !player.hasPermission(Permissions.INVENTORY_INSTANTEAT)) {
 
                 boolean cancelled = instantEatCheck.check(player, event, data, cc);
 
@@ -135,17 +137,18 @@ public class InventoryCheckListener implements Listener, EventManager {
     /**
      * We listen to EntityShootBowEvent for the instantbow check
      * 
-     * @param event The EntityShootBowEvent
+     * @param event
+     *            The EntityShootBowEvent
      */
     @EventHandler(priority = EventPriority.LOWEST)
     public void bowfired(final EntityShootBowEvent event) {
         // Only if a player shot the arrow
-        if(!event.isCancelled() && event.getEntity() instanceof Player) {
+        if (!event.isCancelled() && event.getEntity() instanceof Player) {
             final NoCheatPlayer player = plugin.getPlayer((Player) event.getEntity());
             final InventoryConfig cc = InventoryCheck.getConfig(player);
 
             // Only if he should get checked
-            if(cc.bowCheck && !player.hasPermission(Permissions.INVENTORY_INSTANTBOW)) {
+            if (cc.bowCheck && !player.hasPermission(Permissions.INVENTORY_INSTANTBOW)) {
                 final InventoryData data = InventoryCheck.getData(player);
                 boolean cancelled = instantBowCheck.check(player, event, data, cc);
 
@@ -159,11 +162,11 @@ public class InventoryCheckListener implements Listener, EventManager {
         LinkedList<String> s = new LinkedList<String>();
 
         InventoryConfig i = InventoryCheck.getConfig(cc);
-        if(i.dropCheck)
+        if (i.dropCheck)
             s.add("inventory.dropCheck");
-        if(i.bowCheck)
+        if (i.bowCheck)
             s.add("inventory.instantbow");
-        if(i.eatCheck)
+        if (i.eatCheck)
             s.add("inventory.instanteat");
         return s;
     }

@@ -11,18 +11,18 @@ import cc.co.evenprime.bukkit.nocheat.EventManager;
 import cc.co.evenprime.bukkit.nocheat.config.ConfigurationCacheStore;
 
 /**
- * Only place that listens to Player-teleport related events and dispatches them
- * to relevant checks
+ * Only place that listens to Player-teleport related events and dispatches them to relevant checks
  * 
  */
 public class WorkaroundsListener implements Listener, EventManager {
 
-    public WorkaroundsListener() {}
+    public WorkaroundsListener() {
+    }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void playerMove(final PlayerMoveEvent event) {
         // No typo here. I really only handle cancelled events and ignore others
-        if(!event.isCancelled())
+        if (!event.isCancelled())
             return;
 
         // Fix a common mistake that other developers make (cancelling move
@@ -36,7 +36,7 @@ public class WorkaroundsListener implements Listener, EventManager {
         // Some plugins cancel "sprinting", which makes no sense at all because
         // it doesn't stop people from sprinting and rewards them by reducing
         // their hunger bar as if they were walking instead of sprinting
-        if(event.isCancelled() && event.isSprinting()) {
+        if (event.isCancelled() && event.isSprinting()) {
             event.setCancelled(false);
         }
     }

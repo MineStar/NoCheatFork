@@ -1,8 +1,8 @@
 package cc.co.evenprime.bukkit.nocheat.checks.fight;
 
 import java.util.Locale;
+
 import net.minecraft.server.Entity;
-import net.minecraft.server.EntityComplex;
 import net.minecraft.server.EntityComplexPart;
 import cc.co.evenprime.bukkit.nocheat.NoCheat;
 import cc.co.evenprime.bukkit.nocheat.NoCheatPlayer;
@@ -12,8 +12,7 @@ import cc.co.evenprime.bukkit.nocheat.config.Permissions;
 import cc.co.evenprime.bukkit.nocheat.data.Statistics.Id;
 
 /**
- * The reach check will find out if a player interacts with something that's
- * too far away
+ * The reach check will find out if a player interacts with something that's too far away
  * 
  */
 public class ReachCheck extends FightCheck {
@@ -33,7 +32,7 @@ public class ReachCheck extends FightCheck {
 
         // Safeguard, if entity is Giant or Ender Dragon, this check will fail
         // due to giant and hard to define hitboxes
-        if(entity instanceof EntityComplex || entity instanceof EntityComplexPart) {
+        if (entity instanceof EntityComplexPart) {
             return false;
         }
 
@@ -42,7 +41,7 @@ public class ReachCheck extends FightCheck {
         // difference will be assigned to "distance"
         final double off = CheckUtil.reachCheck(player, entity.locX, entity.locY + 1.0D, entity.locZ, cc.reachLimit);
 
-        if(off < 0.1D) {
+        if (off < 0.1D) {
             // Player did probably nothing wrong
             // reduce violation counter to reward him
             data.reachVL *= 0.80D;
@@ -50,7 +49,7 @@ public class ReachCheck extends FightCheck {
             // Player failed the check
             // Increment violation counter and statistics
             // This is influenced by lag, so don't do it if there was lag
-            if(!plugin.skipCheck()) {
+            if (!plugin.skipCheck()) {
                 double sqrt = Math.sqrt(off);
                 data.reachVL += sqrt;
                 incrementStatistics(player, Id.FI_REACH, sqrt);
@@ -60,17 +59,17 @@ public class ReachCheck extends FightCheck {
             // violation level and find out if we should cancel the event
             cancel = executeActions(player, cc.reachActions, data.reachVL);
 
-            if(cancel) {
+            if (cancel) {
                 // if we should cancel, remember the current time too
                 data.reachLastViolationTime = time;
             }
         }
 
         // If the player is still in penalty time, cancel the event anyway
-        if(data.reachLastViolationTime + cc.reachPenaltyTime > time) {
+        if (data.reachLastViolationTime + cc.reachPenaltyTime > time) {
             // A safeguard to avoid people getting stuck in penalty time
             // indefinitely in case the system time of the server gets changed
-            if(data.reachLastViolationTime > time) {
+            if (data.reachLastViolationTime > time) {
                 data.reachLastViolationTime = 0;
             }
 
@@ -89,7 +88,7 @@ public class ReachCheck extends FightCheck {
     @Override
     public String getParameter(ParameterName wildcard, NoCheatPlayer player) {
 
-        if(wildcard == ParameterName.VIOLATIONS)
+        if (wildcard == ParameterName.VIOLATIONS)
             return String.format(Locale.US, "%d", (int) getData(player).reachVL);
         else
             return super.getParameter(wildcard, player);

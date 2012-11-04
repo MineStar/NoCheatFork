@@ -7,9 +7,8 @@ import cc.co.evenprime.bukkit.nocheat.actions.ParameterName;
 import cc.co.evenprime.bukkit.nocheat.data.Statistics.Id;
 
 /**
- * We require that the player moves his arm between blockbreaks, this is
- * what gets checked here.
- *
+ * We require that the player moves his arm between blockbreaks, this is what gets checked here.
+ * 
  */
 public class NoswingCheck extends BlockBreakCheck {
 
@@ -22,7 +21,7 @@ public class NoswingCheck extends BlockBreakCheck {
         boolean cancel = false;
 
         // did he swing his arm before
-        if(data.armswung) {
+        if (data.armswung) {
             // "consume" the flag
             data.armswung = false;
             // reward with lowering of the violation level
@@ -43,7 +42,7 @@ public class NoswingCheck extends BlockBreakCheck {
     @Override
     public String getParameter(ParameterName wildcard, NoCheatPlayer player) {
 
-        if(wildcard == ParameterName.VIOLATIONS)
+        if (wildcard == ParameterName.VIOLATIONS)
             return String.format(Locale.US, "%d", (int) getData(player).noswingVL);
         else
             return super.getParameter(wildcard, player);

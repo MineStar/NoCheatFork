@@ -7,35 +7,34 @@ import cc.co.evenprime.bukkit.nocheat.config.NoCheatConfiguration;
 import cc.co.evenprime.bukkit.nocheat.config.Permissions;
 
 /**
- * Configurations specific for the Move Checks. Every world gets one of these
- * assigned to it.
+ * Configurations specific for the Move Checks. Every world gets one of these assigned to it.
  * 
  */
 public class MovingConfig implements ConfigItem {
 
-    public final boolean    runflyCheck;
-    public final boolean    identifyCreativeMode;
-    public final double     walkingSpeedLimit;
-    public final double     sprintingSpeedLimit;
-    public final double     jumpheight;
-    public final double     swimmingSpeedLimit;
-    public final boolean    sneakingCheck;
-    public final double     sneakingSpeedLimit;
+    public final boolean runflyCheck;
+    public final boolean identifyCreativeMode;
+    public final double walkingSpeedLimit;
+    public final double sprintingSpeedLimit;
+    public final double jumpheight;
+    public final double swimmingSpeedLimit;
+    public final boolean sneakingCheck;
+    public final double sneakingSpeedLimit;
     public final ActionList actions;
-    public final boolean    allowFlying;
-    public final double     flyingSpeedLimitVertical;
-    public final double     flyingSpeedLimitHorizontal;
+    public final boolean allowFlying;
+    public final double flyingSpeedLimitVertical;
+    public final double flyingSpeedLimitHorizontal;
     public final ActionList flyingActions;
 
-    public final boolean    nofallCheck;
-    public final boolean    nofallaggressive;
-    public final float      nofallMultiplier;
+    public final boolean nofallCheck;
+    public final boolean nofallaggressive;
+    public final float nofallMultiplier;
     public final ActionList nofallActions;
 
-    public final boolean    morePacketsCheck;
+    public final boolean morePacketsCheck;
     public final ActionList morePacketsActions;
 
-    public final int        flyingHeightLimit;
+    public final int flyingHeightLimit;
 
     public MovingConfig(NoCheatConfiguration data) {
 

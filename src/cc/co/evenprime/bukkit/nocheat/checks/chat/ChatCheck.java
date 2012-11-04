@@ -8,8 +8,7 @@ import cc.co.evenprime.bukkit.nocheat.config.ConfigurationCacheStore;
 import cc.co.evenprime.bukkit.nocheat.data.DataStore;
 
 /**
- * Abstract base class for Chat checks, provides some convenience
- * methods for access to data and config that's relevant to this checktype
+ * Abstract base class for Chat checks, provides some convenience methods for access to data and config that's relevant to this checktype
  */
 public abstract class ChatCheck extends Check {
 
@@ -22,7 +21,7 @@ public abstract class ChatCheck extends Check {
     @Override
     public String getParameter(ParameterName wildcard, NoCheatPlayer player) {
 
-        if(wildcard == ParameterName.TEXT)
+        if (wildcard == ParameterName.TEXT)
             // Filter colors from the players message when logging
             return getData(player).message.replaceAll("\302\247.", "").replaceAll("\247.", "");
         else
@@ -30,8 +29,7 @@ public abstract class ChatCheck extends Check {
     }
 
     /**
-     * Get the "ChatData" object that belongs to the player. Will ensure
-     * that such a object exists and if not, create one
+     * Get the "ChatData" object that belongs to the player. Will ensure that such a object exists and if not, create one
      * 
      * @param player
      * @return
@@ -39,7 +37,7 @@ public abstract class ChatCheck extends Check {
     public static ChatData getData(NoCheatPlayer player) {
         DataStore base = player.getDataStore();
         ChatData data = base.get(id);
-        if(data == null) {
+        if (data == null) {
             data = new ChatData();
             base.set(id, data);
         }
@@ -47,8 +45,7 @@ public abstract class ChatCheck extends Check {
     }
 
     /**
-     * Get the ChatConfig object that belongs to the world that the player
-     * currently resides in.
+     * Get the ChatConfig object that belongs to the world that the player currently resides in.
      * 
      * @param player
      * @return
@@ -59,7 +56,7 @@ public abstract class ChatCheck extends Check {
 
     public static ChatConfig getConfig(ConfigurationCacheStore cache) {
         ChatConfig config = cache.get(id);
-        if(config == null) {
+        if (config == null) {
             config = new ChatConfig(cache.getConfiguration());
             cache.set(id, config);
         }

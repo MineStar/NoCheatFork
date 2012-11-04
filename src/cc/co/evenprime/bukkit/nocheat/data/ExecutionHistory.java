@@ -5,8 +5,7 @@ import java.util.Map;
 import cc.co.evenprime.bukkit.nocheat.actions.Action;
 
 /**
- * Store amount of action executions for last 60 seconds
- * for various actions
+ * Store amount of action executions for last 60 seconds for various actions
  * 
  */
 public class ExecutionHistory {
@@ -14,9 +13,9 @@ public class ExecutionHistory {
     private static class ExecutionHistoryEntry {
 
         private final int executionTimes[];
-        private long      lastExecution   = 0;
-        private int       totalEntries    = 0;
-        private long      lastClearedTime = 0;
+        private long lastExecution = 0;
+        private int totalEntries = 0;
+        private long lastClearedTime = 0;
 
         private ExecutionHistoryEntry(int monitoredTimeFrame) {
             this.executionTimes = new int[monitoredTimeFrame];
@@ -27,7 +26,7 @@ public class ExecutionHistory {
          */
         private void addCounter(long time) {
             // clear out now outdated values from the array
-            if(time - lastClearedTime > 0) {
+            if (time - lastClearedTime > 0) {
                 // Clear the next few fields of the array
                 clearTimes(lastClearedTime + 1, time - lastClearedTime);
                 lastClearedTime = time + 1;
@@ -45,17 +44,17 @@ public class ExecutionHistory {
          */
         private void clearTimes(long start, long length) {
 
-            if(length <= 0) {
+            if (length <= 0) {
                 return; // nothing to do (yet)
             }
-            if(length > executionTimes.length) {
+            if (length > executionTimes.length) {
                 length = executionTimes.length;
             }
 
             int j = (int) start % executionTimes.length;
 
-            for(int i = 0; i < length; i++) {
-                if(j == executionTimes.length) {
+            for (int i = 0; i < length; i++) {
+                if (j == executionTimes.length) {
                     j = 0;
                 }
 
@@ -88,10 +87,7 @@ public class ExecutionHistory {
     }
 
     /**
-     * Returns true, if the action should be executed, because all time
-     * criteria have been met. Will add a entry with the time to a list
-     * which will influence further requests, so only use once and remember
-     * the result
+     * Returns true, if the action should be executed, because all time criteria have been met. Will add a entry with the time to a list which will influence further requests, so only use once and remember the result
      * 
      * @param check
      * @param action
@@ -103,14 +99,14 @@ public class ExecutionHistory {
 
         Map<Action, ExecutionHistoryEntry> executionHistory = executionHistories.get(check);
 
-        if(executionHistory == null) {
+        if (executionHistory == null) {
             executionHistory = new HashMap<Action, ExecutionHistoryEntry>();
             executionHistories.put(check, executionHistory);
         }
 
         ExecutionHistoryEntry entry = executionHistory.get(action);
 
-        if(entry == null) {
+        if (entry == null) {
             entry = new ExecutionHistoryEntry(60);
             executionHistory.put(action, entry);
         }
@@ -118,9 +114,9 @@ public class ExecutionHistory {
         // update entry
         entry.addCounter(time);
 
-        if(entry.getCounter() > action.delay) {
+        if (entry.getCounter() > action.delay) {
             // Execute action?
-            if(entry.getLastExecution() <= time - action.repeat) {
+            if (entry.getLastExecution() <= time - action.repeat) {
                 // Execute action!
                 entry.setLastExecution(time);
                 return true;

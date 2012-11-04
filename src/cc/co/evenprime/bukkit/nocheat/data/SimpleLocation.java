@@ -4,9 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 
 /**
- * To avoid constantly creating and referencing "Location" objects, which
- * in turn reference a whole lot of other unnecessary stuff, rather use
- * our own "Location" object which is easily reusable.
+ * To avoid constantly creating and referencing "Location" objects, which in turn reference a whole lot of other unnecessary stuff, rather use our own "Location" object which is easily reusable.
  * 
  */
 public final class SimpleLocation {
@@ -21,14 +19,14 @@ public final class SimpleLocation {
 
     @Override
     public final boolean equals(Object object) {
-        if(!(object instanceof SimpleLocation))
+        if (!(object instanceof SimpleLocation))
             return false;
 
         SimpleLocation simpleLocation = (SimpleLocation) object;
 
-        if(!isSet() && !simpleLocation.isSet())
+        if (!isSet() && !simpleLocation.isSet())
             return true;
-        else if(!isSet() || !simpleLocation.isSet())
+        else if (!isSet() || !simpleLocation.isSet())
             return false;
 
         return simpleLocation.x == x && simpleLocation.y == y && simpleLocation.z == z;

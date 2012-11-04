@@ -33,14 +33,14 @@ public class CommandHandler {
                 String name1 = o1.getName();
                 String name2 = o2.getName();
 
-                if(name1.equals(name2))
+                if (name1.equals(name2))
                     return 0;
 
-                if(name1.startsWith(name2)) {
+                if (name1.startsWith(name2)) {
                     return 1;
                 }
 
-                if(name2.startsWith(name1)) {
+                if (name2.startsWith(name1)) {
                     return -1;
                 }
 
@@ -51,6 +51,7 @@ public class CommandHandler {
 
     /**
      * Handle a command that is directed at NoCheat
+     * 
      * @param plugin
      * @param sender
      * @param command
@@ -62,18 +63,18 @@ public class CommandHandler {
 
         boolean result = false;
         // Not our command, how did it get here?
-        if(!command.getName().equalsIgnoreCase("nocheat") || args.length == 0) {
+        if (!command.getName().equalsIgnoreCase("nocheat") || args.length == 0) {
             result = false;
-        } else if(args[0].equalsIgnoreCase("permlist") && args.length >= 2) {
+        } else if (args[0].equalsIgnoreCase("permlist") && args.length >= 2) {
             // permlist command was used
             result = handlePermlistCommand(plugin, sender, args);
 
-        } else if(args[0].equalsIgnoreCase("reload")) {
+        } else if (args[0].equalsIgnoreCase("reload")) {
             // reload command was used
             result = handleReloadCommand(plugin, sender);
         }
 
-        else if(args[0].equalsIgnoreCase("playerinfo") && args.length >= 2) {
+        else if (args[0].equalsIgnoreCase("playerinfo") && args.length >= 2) {
             // playerinfo command was used
             result = handlePlayerInfoCommand(plugin, sender, args);
         }
@@ -86,13 +87,13 @@ public class CommandHandler {
         Map<String, Object> map = plugin.getPlayerData(args[1]);
         String filter = "";
 
-        if(args.length > 2) {
+        if (args.length > 2) {
             filter = args[2];
         }
 
         sender.sendMessage("PlayerInfo for " + args[1]);
-        for(Entry<String, Object> entry : map.entrySet()) {
-            if(entry.getKey().contains(filter)) {
+        for (Entry<String, Object> entry : map.entrySet()) {
+            if (entry.getKey().contains(filter)) {
                 sender.sendMessage(entry.getKey() + ": " + entry.getValue());
             }
         }
@@ -103,21 +104,21 @@ public class CommandHandler {
 
         // Get the player by name
         Player player = plugin.getServer().getPlayerExact(args[1]);
-        if(player == null) {
+        if (player == null) {
             sender.sendMessage("Unknown player: " + args[1]);
             return true;
         }
 
         // Should permissions be filtered by prefix?
         String prefix = "";
-        if(args.length == 3) {
+        if (args.length == 3) {
             prefix = args[2];
         }
 
         sender.sendMessage("Player " + player.getName() + " has the permission(s):");
 
-        for(Permission permission : perms) {
-            if(permission.getName().startsWith(prefix)) {
+        for (Permission permission : perms) {
+            if (permission.getName().startsWith(prefix)) {
                 sender.sendMessage(permission.getName() + ": " + player.hasPermission(permission));
             }
         }
@@ -127,7 +128,7 @@ public class CommandHandler {
     private boolean handleReloadCommand(NoCheat plugin, CommandSender sender) {
 
         // Players need a special permission for this
-        if(!(sender instanceof Player) || sender.hasPermission(Permissions.ADMIN_RELOAD)) {
+        if (!(sender instanceof Player) || sender.hasPermission(Permissions.ADMIN_RELOAD)) {
             sender.sendMessage("[NoCheat] Reloading configuration");
             plugin.reloadConfiguration();
             sender.sendMessage("[NoCheat] Configuration reloaded");

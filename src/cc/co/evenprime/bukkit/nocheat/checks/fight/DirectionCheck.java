@@ -1,8 +1,8 @@
 package cc.co.evenprime.bukkit.nocheat.checks.fight;
 
 import java.util.Locale;
+
 import net.minecraft.server.Entity;
-import net.minecraft.server.EntityComplex;
 import net.minecraft.server.EntityComplexPart;
 import cc.co.evenprime.bukkit.nocheat.NoCheat;
 import cc.co.evenprime.bukkit.nocheat.NoCheatPlayer;
@@ -12,8 +12,7 @@ import cc.co.evenprime.bukkit.nocheat.config.Permissions;
 import cc.co.evenprime.bukkit.nocheat.data.Statistics.Id;
 
 /**
- * The DirectionCheck will find out if a player tried to interact with something
- * that's not in his field of view.
+ * The DirectionCheck will find out if a player tried to interact with something that's not in his field of view.
  * 
  */
 public class DirectionCheck extends FightCheck {
@@ -33,13 +32,13 @@ public class DirectionCheck extends FightCheck {
 
         // Safeguard, if entity is complex, this check will fail
         // due to giant and hard to define hitboxes
-        if(entity instanceof EntityComplex || entity instanceof EntityComplexPart) {
+        if (entity instanceof EntityComplexPart) {
             return false;
         }
 
         // Find out how wide the entity is
         final float width = entity.length > entity.width ? entity.length : entity.width;
-        // entity.height is broken and will always be 0, therefore 
+        // entity.height is broken and will always be 0, therefore
         // calculate height instead based on boundingBox
         final double height = entity.boundingBox.e - entity.boundingBox.b;
 
@@ -49,7 +48,7 @@ public class DirectionCheck extends FightCheck {
         // bigger than 0
         final double off = CheckUtil.directionCheck(player, entity.locX, entity.locY + (height / 2D), entity.locZ, width, height, cc.directionPrecision);
 
-        if(off < 0.1D) {
+        if (off < 0.1D) {
             // Player did probably nothing wrong
             // reduce violation counter to reward him
             data.directionVL *= 0.80D;
@@ -57,7 +56,7 @@ public class DirectionCheck extends FightCheck {
             // Player failed the check
             // Increment violation counter and statistics, but only if there
             // wasn't serious lag
-            if(!plugin.skipCheck()) {
+            if (!plugin.skipCheck()) {
                 double sqrt = Math.sqrt(off);
                 data.directionVL += sqrt;
                 incrementStatistics(player, Id.FI_DIRECTION, sqrt);
@@ -67,17 +66,17 @@ public class DirectionCheck extends FightCheck {
             // violation level and find out if we should cancel the event
             cancel = executeActions(player, cc.directionActions, data.directionVL);
 
-            if(cancel) {
+            if (cancel) {
                 // if we should cancel, remember the current time too
                 data.directionLastViolationTime = time;
             }
         }
 
         // If the player is still in penalty time, cancel the event anyway
-        if(data.directionLastViolationTime + cc.directionPenaltyTime > time) {
+        if (data.directionLastViolationTime + cc.directionPenaltyTime > time) {
             // A safeguard to avoid people getting stuck in penalty time
             // indefinitely in case the system time of the server gets changed
-            if(data.directionLastViolationTime > time) {
+            if (data.directionLastViolationTime > time) {
                 data.directionLastViolationTime = 0;
             }
 
@@ -96,7 +95,7 @@ public class DirectionCheck extends FightCheck {
     @Override
     public String getParameter(ParameterName wildcard, NoCheatPlayer player) {
 
-        if(wildcard == ParameterName.VIOLATIONS)
+        if (wildcard == ParameterName.VIOLATIONS)
             return String.format(Locale.US, "%d", (int) getData(player).directionVL);
         else
             return super.getParameter(wildcard, player);

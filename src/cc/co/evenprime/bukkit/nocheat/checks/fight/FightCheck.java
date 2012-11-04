@@ -7,13 +7,12 @@ import cc.co.evenprime.bukkit.nocheat.config.ConfigurationCacheStore;
 import cc.co.evenprime.bukkit.nocheat.data.DataStore;
 
 /**
- * Abstract base class for Fight checks, provides some convenience
- * methods for access to data and config that's relevant to this checktype
+ * Abstract base class for Fight checks, provides some convenience methods for access to data and config that's relevant to this checktype
  */
 public abstract class FightCheck extends Check {
 
     private static final String id = "fight";
-    public final String         permission;
+    public final String permission;
 
     public FightCheck(NoCheat plugin, String name, String permission) {
         super(plugin, id, name);
@@ -25,8 +24,7 @@ public abstract class FightCheck extends Check {
     public abstract boolean isEnabled(FightConfig cc);
 
     /**
-     * Get the "FightData" object that belongs to the player. Will ensure
-     * that such a object exists and if not, create one
+     * Get the "FightData" object that belongs to the player. Will ensure that such a object exists and if not, create one
      * 
      * @param player
      * @return
@@ -34,7 +32,7 @@ public abstract class FightCheck extends Check {
     public static FightData getData(NoCheatPlayer player) {
         DataStore base = player.getDataStore();
         FightData data = base.get(id);
-        if(data == null) {
+        if (data == null) {
             data = new FightData();
             base.set(id, data);
         }
@@ -42,8 +40,7 @@ public abstract class FightCheck extends Check {
     }
 
     /**
-     * Get the FightConfig object that belongs to the world that the player
-     * currently resides in.
+     * Get the FightConfig object that belongs to the world that the player currently resides in.
      * 
      * @param player
      * @return
@@ -54,7 +51,7 @@ public abstract class FightCheck extends Check {
 
     public static FightConfig getConfig(ConfigurationCacheStore cache) {
         FightConfig config = cache.get(id);
-        if(config == null) {
+        if (config == null) {
             config = new FightConfig(cache.getConfiguration());
             cache.set(id, config);
         }

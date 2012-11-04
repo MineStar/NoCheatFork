@@ -9,8 +9,7 @@ import cc.co.evenprime.bukkit.nocheat.data.SimpleLocation;
 import cc.co.evenprime.bukkit.nocheat.data.Statistics.Id;
 
 /**
- * The DirectionCheck will find out if a player tried to interact with something
- * that's not in his field of view.
+ * The DirectionCheck will find out if a player tried to interact with something that's not in his field of view.
  * 
  */
 public class DirectionCheck extends BlockBreakCheck {
@@ -32,14 +31,14 @@ public class DirectionCheck extends BlockBreakCheck {
 
         final long time = System.currentTimeMillis();
 
-        if(off < 0.1D) {
+        if (off < 0.1D) {
             // Player did likely nothing wrong
             // reduce violation counter to reward him
             data.directionVL *= 0.9D;
         } else {
             // Player failed the check
             // Increment violation counter
-            if(data.instaBrokenBlockLocation.equals(brokenBlock)) {
+            if (data.instaBrokenBlockLocation.equals(brokenBlock)) {
                 // Instabreak block failures are very common, so don't be as
                 // hard on people failing them
                 off /= 5;
@@ -54,17 +53,17 @@ public class DirectionCheck extends BlockBreakCheck {
             // violation level and find out if we should cancel the event
             cancel = executeActions(player, ccblockbreak.directionActions, data.directionVL);
 
-            if(cancel) {
+            if (cancel) {
                 // if we should cancel, remember the current time too
                 data.directionLastViolationTime = time;
             }
         }
 
         // If the player is still in penalty time, cancel the event anyway
-        if(data.directionLastViolationTime + ccblockbreak.directionPenaltyTime > time) {
+        if (data.directionLastViolationTime + ccblockbreak.directionPenaltyTime > time) {
             // A saveguard to avoid people getting stuck in penalty time
             // indefinitely in case the system time of the server gets changed
-            if(data.directionLastViolationTime > time) {
+            if (data.directionLastViolationTime > time) {
                 data.directionLastViolationTime = 0;
             }
 
@@ -78,7 +77,7 @@ public class DirectionCheck extends BlockBreakCheck {
     @Override
     public String getParameter(ParameterName wildcard, NoCheatPlayer player) {
 
-        if(wildcard == ParameterName.VIOLATIONS)
+        if (wildcard == ParameterName.VIOLATIONS)
             return String.format(Locale.US, "%d", (int) getData(player).directionVL);
         else
             return super.getParameter(wildcard, player);

@@ -9,8 +9,7 @@ import cc.co.evenprime.bukkit.nocheat.data.SimpleLocation;
 import cc.co.evenprime.bukkit.nocheat.data.Statistics.Id;
 
 /**
- * The reach check will find out if a player interacts with something that's
- * too far away
+ * The reach check will find out if a player interacts with something that's too far away
  * 
  */
 public class ReachCheck extends BlockBreakCheck {
@@ -30,7 +29,7 @@ public class ReachCheck extends BlockBreakCheck {
         // difference will be assigned to "distance"
         final double distance = CheckUtil.reachCheck(player, brokenBlock.x + 0.5D, brokenBlock.y + 0.5D, brokenBlock.z + 0.5D, player.isCreative() ? cc.reachDistance + 2 : cc.reachDistance);
 
-        if(distance <= 0D) {
+        if (distance <= 0D) {
             // Player passed the check, reward him
             data.reachVL *= 0.9D;
         } else {
@@ -53,9 +52,9 @@ public class ReachCheck extends BlockBreakCheck {
     @Override
     public String getParameter(ParameterName wildcard, NoCheatPlayer player) {
 
-        if(wildcard == ParameterName.VIOLATIONS)
+        if (wildcard == ParameterName.VIOLATIONS)
             return String.format(Locale.US, "%d", (int) getData(player).reachVL);
-        else if(wildcard == ParameterName.REACHDISTANCE)
+        else if (wildcard == ParameterName.REACHDISTANCE)
             return String.format(Locale.US, "%.2f", getData(player).reachDistance);
         else
             return super.getParameter(wildcard, player);

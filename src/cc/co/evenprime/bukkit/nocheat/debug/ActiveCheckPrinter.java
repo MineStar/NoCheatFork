@@ -8,7 +8,7 @@ import cc.co.evenprime.bukkit.nocheat.config.ConfigurationCacheStore;
 
 /**
  * Prints the list of active checks per world on startup, if requested
- *
+ * 
  */
 public class ActiveCheckPrinter {
 
@@ -18,7 +18,7 @@ public class ActiveCheckPrinter {
         String intro = "[NoCheat] Active Checks: ";
 
         // Print active checks for NoCheat, if needed.
-        for(World world : plugin.getServer().getWorlds()) {
+        for (World world : plugin.getServer().getWorlds()) {
 
             StringBuilder line = new StringBuilder("  ").append(world.getName()).append(": ");
 
@@ -26,18 +26,18 @@ public class ActiveCheckPrinter {
 
             ConfigurationCacheStore cc = plugin.getConfig(world);
 
-            if(!cc.logging.showactivechecks)
+            if (!cc.logging.showactivechecks)
                 continue;
 
-            for(EventManager em : eventManagers) {
-                if(em.getActiveChecks(cc).size() == 0)
+            for (EventManager em : eventManagers) {
+                if (em.getActiveChecks(cc).size() == 0)
                     continue;
 
-                for(String active : em.getActiveChecks(cc)) {
+                for (String active : em.getActiveChecks(cc)) {
                     line.append(active).append(' ');
                 }
 
-                if(!introPrinted) {
+                if (!introPrinted) {
                     System.out.println(intro);
                     introPrinted = true;
                 }
@@ -46,7 +46,7 @@ public class ActiveCheckPrinter {
 
                 line = new StringBuilder(length);
 
-                for(int i = 0; i < length; i++) {
+                for (int i = 0; i < length; i++) {
                     line.append(' ');
                 }
             }

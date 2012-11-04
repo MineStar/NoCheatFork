@@ -8,8 +8,7 @@ import cc.co.evenprime.bukkit.nocheat.actions.ParameterName;
 import cc.co.evenprime.bukkit.nocheat.data.Statistics.Id;
 
 /**
- * The InstantBowCheck will find out if a player pulled the string of his bow
- * too fast
+ * The InstantBowCheck will find out if a player pulled the string of his bow too fast
  */
 public class InstantBowCheck extends InventoryCheck {
 
@@ -29,10 +28,10 @@ public class InstantBowCheck extends InventoryCheck {
         // Rough estimation of how long pulling the string should've taken
         long expectedTimeWhenStringDrawn = data.lastBowInteractTime + (int) (bowForce * bowForce * 700F);
 
-        if(expectedTimeWhenStringDrawn < time) {
+        if (expectedTimeWhenStringDrawn < time) {
             // The player was slow enough, reward him by lowering the vl
             data.instantBowVL *= 0.90D;
-        } else if(data.lastBowInteractTime > time) {
+        } else if (data.lastBowInteractTime > time) {
             // Security check if time ran backwards, reset
             data.lastBowInteractTime = 0;
         } else {
@@ -52,7 +51,7 @@ public class InstantBowCheck extends InventoryCheck {
     @Override
     public String getParameter(ParameterName wildcard, NoCheatPlayer player) {
 
-        if(wildcard == ParameterName.VIOLATIONS)
+        if (wildcard == ParameterName.VIOLATIONS)
             return String.format(Locale.US, "%d", (int) getData(player).instantBowVL);
         else
             return super.getParameter(wildcard, player);

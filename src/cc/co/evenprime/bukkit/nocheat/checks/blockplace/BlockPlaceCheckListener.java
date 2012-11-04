@@ -13,15 +13,14 @@ import cc.co.evenprime.bukkit.nocheat.config.ConfigurationCacheStore;
 import cc.co.evenprime.bukkit.nocheat.config.Permissions;
 
 /**
- * Central location to listen to Block-related events and dispatching them to
- * checks
+ * Central location to listen to Block-related events and dispatching them to checks
  * 
  */
 public class BlockPlaceCheckListener implements Listener, EventManager {
 
-    private final ReachCheck     reachCheck;
+    private final ReachCheck reachCheck;
     private final DirectionCheck directionCheck;
-    private final NoCheat        plugin;
+    private final NoCheat plugin;
 
     public BlockPlaceCheckListener(NoCheat plugin) {
 
@@ -33,12 +32,14 @@ public class BlockPlaceCheckListener implements Listener, EventManager {
 
     /**
      * We listen to BlockPlace events for obvious reasons
-     * @param event the BlockPlace event
+     * 
+     * @param event
+     *            the BlockPlace event
      */
     @EventHandler(priority = EventPriority.LOWEST)
     protected void handleBlockPlaceEvent(BlockPlaceEvent event) {
 
-        if(event.isCancelled() || event.getBlock() == null || event.getBlockAgainst() == null)
+        if (event.isCancelled() || event.getBlock() == null || event.getBlockAgainst() == null)
             return;
 
         boolean cancelled = false;
@@ -54,17 +55,17 @@ public class BlockPlaceCheckListener implements Listener, EventManager {
         // Now do the actual checks
 
         // First the reach check
-        if(cc.reachCheck && !player.hasPermission(Permissions.BLOCKPLACE_REACH)) {
+        if (cc.reachCheck && !player.hasPermission(Permissions.BLOCKPLACE_REACH)) {
             cancelled = reachCheck.check(player, data, cc);
         }
 
         // Second the direction check
-        if(!cancelled && cc.directionCheck && !player.hasPermission(Permissions.BLOCKPLACE_DIRECTION)) {
+        if (!cancelled && cc.directionCheck && !player.hasPermission(Permissions.BLOCKPLACE_DIRECTION)) {
             cancelled = directionCheck.check(player, data, cc);
         }
 
         // If one of the checks requested to cancel the event, do so
-        if(cancelled)
+        if (cancelled)
             event.setCancelled(cancelled);
     }
 
@@ -73,9 +74,9 @@ public class BlockPlaceCheckListener implements Listener, EventManager {
 
         BlockPlaceConfig bp = BlockPlaceCheck.getConfig(cc);
 
-        if(bp.reachCheck)
+        if (bp.reachCheck)
             s.add("blockplace.reach");
-        if(bp.directionCheck)
+        if (bp.directionCheck)
             s.add("blockplace.direction");
 
         return s;

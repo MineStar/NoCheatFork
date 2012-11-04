@@ -23,10 +23,12 @@ public class LogAction extends ActionWithParameters {
     }
 
     /**
-     * Parse the final log message out of various data from the player and
-     * check that triggered the action.
-     * @param player The player that is used as a source for the log message
-     * @param check The check that is used as a source for the log message
+     * Parse the final log message out of various data from the player and check that triggered the action.
+     * 
+     * @param player
+     *            The player that is used as a source for the log message
+     * @param check
+     *            The check that is used as a source for the log message
      * @return
      */
     public String getLogMessage(NoCheatPlayer player, Check check) {
@@ -35,6 +37,7 @@ public class LogAction extends ActionWithParameters {
 
     /**
      * Should the message be shown in chat?
+     * 
      * @return true, if yes
      */
     public boolean toChat() {
@@ -43,6 +46,7 @@ public class LogAction extends ActionWithParameters {
 
     /**
      * Should the message be shown in the console?
+     * 
      * @return true, if yes
      */
     public boolean toConsole() {
@@ -51,6 +55,7 @@ public class LogAction extends ActionWithParameters {
 
     /**
      * Should the message be written to the logfile?
+     * 
      * @return true, if yes
      */
     public boolean toFile() {

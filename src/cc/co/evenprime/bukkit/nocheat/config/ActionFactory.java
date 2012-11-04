@@ -13,7 +13,7 @@ import cc.co.evenprime.bukkit.nocheat.actions.types.SpecialAction;
 
 /**
  * Helps with creating Actions out of text string definitions
- *
+ * 
  */
 public class ActionFactory {
 
@@ -27,15 +27,15 @@ public class ActionFactory {
 
         actionDefinition = actionDefinition.toLowerCase();
 
-        if(actionDefinition.equals("cancel")) {
+        if (actionDefinition.equals("cancel")) {
             return new SpecialAction();
         }
 
-        if(actionDefinition.startsWith("log:")) {
+        if (actionDefinition.startsWith("log:")) {
             return parseLogAction(actionDefinition.split(":", 2)[1]);
         }
 
-        if(actionDefinition.startsWith("cmd:")) {
+        if (actionDefinition.startsWith("cmd:")) {
             return parseCmdAction(actionDefinition.split(":", 2)[1]);
         }
 
@@ -49,15 +49,15 @@ public class ActionFactory {
         int delay = 0;
         int repeat = 1;
 
-        if(command == null) {
+        if (command == null) {
             throw new IllegalArgumentException("NoCheat doesn't know command '" + name + "'. Have you forgotten to define it?");
         }
 
-        if(parts.length > 1) {
+        if (parts.length > 1) {
             try {
                 delay = Integer.parseInt(parts[1]);
                 repeat = Integer.parseInt(parts[2]);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 System.out.println("NoCheat couldn't parse details of command '" + definition + "', will use default values instead.");
                 delay = 0;
                 repeat = 1;
@@ -77,7 +77,7 @@ public class ActionFactory {
         boolean toFile = true;
         boolean toChat = true;
 
-        if(message == null) {
+        if (message == null) {
             throw new IllegalArgumentException("NoCheat doesn't know log message '" + name + "'. Have you forgotten to define it?");
         }
 
@@ -87,7 +87,7 @@ public class ActionFactory {
             toConsole = parts[3].contains("c");
             toChat = parts[3].contains("i");
             toFile = parts[3].contains("f");
-        } catch(Exception e) {
+        } catch (Exception e) {
             System.out.println("NoCheat couldn't parse details of log action '" + definition + "', will use default values instead.");
             e.printStackTrace();
             delay = 0;
@@ -103,12 +103,12 @@ public class ActionFactory {
     public Action[] createActions(String... definitions) {
         List<Action> actions = new ArrayList<Action>();
 
-        for(String def : definitions) {
-            if(def.length() == 0)
+        for (String def : definitions) {
+            if (def.length() == 0)
                 continue;
             try {
                 actions.add(createAction(def));
-            } catch(IllegalArgumentException e) {
+            } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
                 actions.add(new DummyAction(def));
             }
@@ -122,10 +122,10 @@ public class ActionFactory {
 
         boolean first = true;
 
-        for(String s : definition.split("vl>")) {
+        for (String s : definition.split("vl>")) {
             s = s.trim();
 
-            if(s.length() == 0) {
+            if (s.length() == 0) {
                 first = false;
                 continue;
             }
@@ -133,7 +133,7 @@ public class ActionFactory {
             try {
                 Integer vl;
                 String def;
-                if(first) {
+                if (first) {
                     first = false;
                     vl = 0;
                     def = s;
@@ -143,7 +143,7 @@ public class ActionFactory {
                     def = listEntry[1];
                 }
                 list.setActions(vl, createActions(def.split("\\s+")));
-            } catch(Exception e) {
+            } catch (Exception e) {
                 System.out.println("NoCheat couldn't parse action definition 'vl:" + s + "'");
             }
         }

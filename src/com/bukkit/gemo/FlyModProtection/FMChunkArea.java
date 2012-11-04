@@ -35,10 +35,9 @@ public class FMChunkArea {
         empty = false;
     }
 
-   
     @Override
     public String toString() {
-        return worldName + " - " + empty +  " - " + chunk1_x + " / " + chunk1_z + " -- " + chunk2_x + " / " + chunk2_z;
+        return worldName + " - " + empty + " - " + chunk1_x + " / " + chunk1_z + " -- " + chunk2_x + " / " + chunk2_z;
     }
 
     // IS LOCATION IN AREA?

@@ -9,17 +9,7 @@ public class Statistics {
 
     public enum Id {
 
-        BB_DIRECTION("blockbreak.direction"), BB_NOSWING("blockbreak.noswing"),
-        BB_REACH("blockbreak.reach"), BP_DIRECTION("blockplace.direction"),
-        BP_REACH("blockplace.reach"), CHAT_COLOR("chat.color"),
-        CHAT_SPAM("chat.spam"), FI_DIRECTION("fight.direction"),
-        FI_NOSWING("fight.noswing"), FI_REACH("fight.reach"),
-        FI_SPEED("fight.speed"), INV_DROP("inventory.drop"),
-        INV_BOW("inventory.instantbow"), INV_EAT("inventory.instanteat"),
-        MOV_RUNNING("moving.running"), MOV_FLYING("moving.flying"),
-        MOV_MOREPACKETS("moving.morepackets"), MOV_NOFALL("moving.nofall"),
-        MOV_SNEAKING("moving.sneaking"), MOV_SWIMMING("moving.swimming"),
-        FI_GODMODE("fight.godmode");
+        BB_DIRECTION("blockbreak.direction"), BB_NOSWING("blockbreak.noswing"), BB_REACH("blockbreak.reach"), BP_DIRECTION("blockplace.direction"), BP_REACH("blockplace.reach"), CHAT_COLOR("chat.color"), CHAT_SPAM("chat.spam"), FI_DIRECTION("fight.direction"), FI_NOSWING("fight.noswing"), FI_REACH("fight.reach"), FI_SPEED("fight.speed"), INV_DROP("inventory.drop"), INV_BOW("inventory.instantbow"), INV_EAT("inventory.instanteat"), MOV_RUNNING("moving.running"), MOV_FLYING("moving.flying"), MOV_MOREPACKETS("moving.morepackets"), MOV_NOFALL("moving.nofall"), MOV_SNEAKING("moving.sneaking"), MOV_SWIMMING("moving.swimming"), FI_GODMODE("fight.godmode");
 
         private final String name;
 
@@ -33,12 +23,12 @@ public class Statistics {
 
     }
 
-    private final Map<Id, Double>  statisticVLs   = new HashMap<Id, Double>(Id.values().length);
+    private final Map<Id, Double> statisticVLs = new HashMap<Id, Double>(Id.values().length);
     private final Map<Id, Integer> statisticFails = new HashMap<Id, Integer>(Id.values().length);
 
     public Statistics() {
         // Initialize statistic values
-        for(Id id : Id.values()) {
+        for (Id id : Id.values()) {
             statisticVLs.put(id, 0D);
             statisticFails.put(id, 0);
         }
@@ -46,12 +36,12 @@ public class Statistics {
 
     public void increment(Id id, double vl) {
         Double stored = statisticVLs.get(id);
-        if(stored == null)
+        if (stored == null)
             stored = 0D;
         statisticVLs.put(id, stored + vl);
 
         Integer failed = statisticFails.get(id);
-        if(failed == null)
+        if (failed == null)
             failed = 0;
         statisticFails.put(id, failed + 1);
     }
@@ -59,11 +49,11 @@ public class Statistics {
     public Map<String, Object> get() {
         Map<String, Object> map = new TreeMap<String, Object>();
 
-        for(Entry<Id, Double> entry : statisticVLs.entrySet()) {
+        for (Entry<Id, Double> entry : statisticVLs.entrySet()) {
             map.put(entry.getKey().toString() + ".vl", entry.getValue().intValue());
         }
 
-        for(Entry<Id, Integer> entry : statisticFails.entrySet()) {
+        for (Entry<Id, Integer> entry : statisticFails.entrySet()) {
             map.put(entry.getKey().toString() + ".failed", entry.getValue());
         }
 

@@ -8,9 +8,7 @@ import cc.co.evenprime.bukkit.nocheat.data.PreciseLocation;
 import cc.co.evenprime.bukkit.nocheat.data.Statistics.Id;
 
 /**
- * A check designed for people that are allowed to fly. The complement to
- * the "RunningCheck", which is for people that aren't allowed to fly, and
- * therefore have tighter rules to obey.
+ * A check designed for people that are allowed to fly. The complement to the "RunningCheck", which is for people that aren't allowed to fly, and therefore have tighter rules to obey.
  * 
  */
 public class FlyingCheck extends MovingCheck {
@@ -33,7 +31,7 @@ public class FlyingCheck extends MovingCheck {
         final PreciseLocation to = data.to;
 
         // If we have no setback, define one now
-        if(!setBack.isSet()) {
+        if (!setBack.isSet()) {
             setBack.set(from);
         }
 
@@ -44,7 +42,7 @@ public class FlyingCheck extends MovingCheck {
         // players are flying too high
         int maxheight = ccmoving.flyingHeightLimit + player.getPlayer().getWorld().getMaxHeight();
 
-        if(to.y - data.vertFreedom > maxheight) {
+        if (to.y - data.vertFreedom > maxheight) {
             newToLocation = new PreciseLocation();
             newToLocation.set(setBack);
             newToLocation.y = maxheight - 10;
@@ -76,12 +74,12 @@ public class FlyingCheck extends MovingCheck {
 
         data.bunnyhopdelay--;
 
-        if(resultHoriz > 0 && sprinting) {
+        if (resultHoriz > 0 && sprinting) {
 
             // Try to treat it as a the "bunnyhop" problem
             // The bunnyhop problem is that landing and immediatly jumping
             // again leads to a player moving almost twice as far in that step
-            if(data.bunnyhopdelay <= 0 && resultHoriz < 0.4D) {
+            if (data.bunnyhopdelay <= 0 && resultHoriz < 0.4D) {
                 data.bunnyhopdelay = 9;
                 resultHoriz = 0;
             }
@@ -93,13 +91,13 @@ public class FlyingCheck extends MovingCheck {
         // This is really just a very, very crude estimation and far from
         // reality
         double jumpAmplifier = player.getJumpAmplifier();
-        if(jumpAmplifier > data.lastJumpAmplifier) {
+        if (jumpAmplifier > data.lastJumpAmplifier) {
             data.lastJumpAmplifier = jumpAmplifier;
         }
 
         double speedLimitVertical = ccmoving.flyingSpeedLimitVertical * data.lastJumpAmplifier;
 
-        if(data.from.y >= data.to.y && data.lastJumpAmplifier > 0) {
+        if (data.from.y >= data.to.y && data.lastJumpAmplifier > 0) {
             data.lastJumpAmplifier--;
         }
 
@@ -109,15 +107,15 @@ public class FlyingCheck extends MovingCheck {
         result = resultHoriz + resultVert;
 
         // The player went to far, either horizontal or vertical
-        if(result > 0) {
+        if (result > 0) {
 
             // Increment violation counter and statistics
             data.runflyVL += result;
-            if(resultHoriz > 0) {
+            if (resultHoriz > 0) {
                 incrementStatistics(player, Id.MOV_RUNNING, resultHoriz);
             }
 
-            if(resultVert > 0) {
+            if (resultVert > 0) {
                 incrementStatistics(player, Id.MOV_FLYING, resultVert);
             }
 
@@ -126,7 +124,7 @@ public class FlyingCheck extends MovingCheck {
             boolean cancel = executeActions(player, ccmoving.flyingActions, data.runflyVL);
 
             // Was one of the actions a cancel? Then really do it
-            if(cancel) {
+            if (cancel) {
                 newToLocation = setBack;
             }
         }
@@ -135,7 +133,7 @@ public class FlyingCheck extends MovingCheck {
         data.runflyVL *= 0.97;
 
         // If the player did not get cancelled, define a new setback point
-        if(newToLocation == null) {
+        if (newToLocation == null) {
             setBack.set(to);
         }
 
@@ -145,7 +143,7 @@ public class FlyingCheck extends MovingCheck {
     @Override
     public String getParameter(ParameterName wildcard, NoCheatPlayer player) {
 
-        if(wildcard == ParameterName.VIOLATIONS)
+        if (wildcard == ParameterName.VIOLATIONS)
             return String.format(Locale.US, "%d", (int) getData(player).runflyVL);
         else
             return super.getParameter(wildcard, player);

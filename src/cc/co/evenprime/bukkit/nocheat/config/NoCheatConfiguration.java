@@ -33,36 +33,36 @@ public class NoCheatConfiguration extends YamlConfiguration {
     }
 
     public static void writeInstructions(File rootConfigFolder) {
-//        InputStream fis = NoCheatConfiguration.class.getClassLoader().getResourceAsStream("Instructions.txt");
-//
-//        StringBuffer result = new StringBuffer();
-//        try {
-//            byte[] buf = new byte[1024];
-//            int i = 0;
-//            while((i = fis.read(buf)) != -1) {
-//                result.append(new String(buf).substring(0, i));
-//            }
-//
-//            File iFile = new File(rootConfigFolder, "Instructions.txt");
-//            if(iFile.exists()) {
-//                iFile.delete();
-//            }
-//            FileWriter output = new FileWriter(iFile);
-//            String nl = System.getProperty("line.separator");
-//            String instructions = result.toString();
-//            instructions = instructions.replaceAll("\r\n", "\n");
-//            String lines[] = instructions.split("\n");
-//
-//            for(String line : lines) {
-//                output.append(line);
-//                output.append(nl);
-//            }
-//
-//            output.flush();
-//            output.close();
-//        } catch(Exception e) {
-//            e.printStackTrace();
-//        }
+        // InputStream fis = NoCheatConfiguration.class.getClassLoader().getResourceAsStream("Instructions.txt");
+        //
+        // StringBuffer result = new StringBuffer();
+        // try {
+        // byte[] buf = new byte[1024];
+        // int i = 0;
+        // while((i = fis.read(buf)) != -1) {
+        // result.append(new String(buf).substring(0, i));
+        // }
+        //
+        // File iFile = new File(rootConfigFolder, "Instructions.txt");
+        // if(iFile.exists()) {
+        // iFile.delete();
+        // }
+        // FileWriter output = new FileWriter(iFile);
+        // String nl = System.getProperty("line.separator");
+        // String instructions = result.toString();
+        // instructions = instructions.replaceAll("\r\n", "\n");
+        // String lines[] = instructions.split("\n");
+        //
+        // for(String line : lines) {
+        // output.append(line);
+        // output.append(nl);
+        // }
+        //
+        // output.flush();
+        // output.close();
+        // } catch(Exception e) {
+        // e.printStackTrace();
+        // }
     }
 
     /**

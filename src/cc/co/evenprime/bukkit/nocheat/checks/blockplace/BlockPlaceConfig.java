@@ -7,21 +7,19 @@ import cc.co.evenprime.bukkit.nocheat.config.NoCheatConfiguration;
 import cc.co.evenprime.bukkit.nocheat.config.Permissions;
 
 /**
- * Configurations specific for the "BlockPlace" checks
- * Every world gets one of these assigned to it, or if a world doesn't get
- * it's own, it will use the "global" version
+ * Configurations specific for the "BlockPlace" checks Every world gets one of these assigned to it, or if a world doesn't get it's own, it will use the "global" version
  * 
  */
 public class BlockPlaceConfig implements ConfigItem {
 
-    public final boolean    reachCheck;
-    public final double     reachDistance;
+    public final boolean reachCheck;
+    public final double reachDistance;
     public final ActionList reachActions;
 
-    public final boolean    directionCheck;
+    public final boolean directionCheck;
     public final ActionList directionActions;
-    public final long       directionPenaltyTime;
-    public final double     directionPrecision;
+    public final long directionPenaltyTime;
+    public final double directionPrecision;
 
     public BlockPlaceConfig(NoCheatConfiguration data) {
 

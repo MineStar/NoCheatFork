@@ -19,16 +19,15 @@ import cc.co.evenprime.bukkit.nocheat.config.ConfigurationCacheStore;
 import cc.co.evenprime.bukkit.nocheat.config.Permissions;
 
 /**
- * Central location to listen to events that are 
- * relevant for the blockbreak checks
+ * Central location to listen to events that are relevant for the blockbreak checks
  * 
  */
 public class BlockBreakCheckListener implements Listener, EventManager {
 
-    private final NoswingCheck   noswingCheck;
-    private final ReachCheck     reachCheck;
+    private final NoswingCheck noswingCheck;
+    private final ReachCheck reachCheck;
     private final DirectionCheck directionCheck;
-    private final NoCheat        plugin;
+    private final NoCheat plugin;
 
     public BlockBreakCheckListener(NoCheat plugin) {
 
@@ -41,12 +40,14 @@ public class BlockBreakCheckListener implements Listener, EventManager {
 
     /**
      * We listen to blockBreak events for obvious reasons
-     * @param event The blockbreak event
+     * 
+     * @param event
+     *            The blockbreak event
      */
     @EventHandler(priority = EventPriority.LOWEST)
     public void blockBreak(final BlockBreakEvent event) {
 
-        if(event.isCancelled())
+        if (event.isCancelled())
             return;
 
         boolean cancelled = false;
@@ -59,7 +60,7 @@ public class BlockBreakCheckListener implements Listener, EventManager {
         data.brokenBlockLocation.set(event.getBlock());
 
         // Only if the block got damaged directly before, do the check(s)
-        if(!data.brokenBlockLocation.equals(data.lastDamagedBlock)) {
+        if (!data.brokenBlockLocation.equals(data.lastDamagedBlock)) {
             // Something caused a blockbreak event that's not from the player
             // Don't check it at all
             data.lastDamagedBlock.reset();
@@ -72,42 +73,42 @@ public class BlockBreakCheckListener implements Listener, EventManager {
 
         // First NoSwing: Did the arm of the player move before breaking this
         // block?
-        if(cc.noswingCheck && !UtilPermissions.playerCanUseCommand(event.getPlayer(), Permissions.BLOCKBREAK_NOSWING)) {
+        if (cc.noswingCheck && !UtilPermissions.playerCanUseCommand(event.getPlayer(), Permissions.BLOCKBREAK_NOSWING)) {
             cancelled = noswingCheck.check(player, data, cc);
         }
 
         // Second Reach: Is the block really in reach distance
-        if(!cancelled && cc.reachCheck && !UtilPermissions.playerCanUseCommand(event.getPlayer(), Permissions.BLOCKBREAK_REACH)) {
+        if (!cancelled && cc.reachCheck && !UtilPermissions.playerCanUseCommand(event.getPlayer(), Permissions.BLOCKBREAK_REACH)) {
             cancelled = reachCheck.check(player, data, cc);
         }
 
         // Third Direction: Did the player look at the block at all
-        if(!cancelled && cc.directionCheck && !UtilPermissions.playerCanUseCommand(event.getPlayer(), Permissions.BLOCKBREAK_DIRECTION)) {
+        if (!cancelled && cc.directionCheck && !UtilPermissions.playerCanUseCommand(event.getPlayer(), Permissions.BLOCKBREAK_DIRECTION)) {
             cancelled = directionCheck.check(player, data, cc);
         }
 
         // At least one check failed and demanded to cancel the event
-        if(cancelled)
+        if (cancelled)
             event.setCancelled(cancelled);
     }
 
     /**
-     * We listen to BlockDamage events to grab the information if it has been
-     * an "insta-break". That info may come in handy later.
+     * We listen to BlockDamage events to grab the information if it has been an "insta-break". That info may come in handy later.
      * 
-     * @param event The BlockDamage event
+     * @param event
+     *            The BlockDamage event
      */
     @EventHandler(priority = EventPriority.MONITOR)
     public void blockHit(final BlockDamageEvent event) {
 
-        if(event.isCancelled())
+        if (event.isCancelled())
             return;
 
         NoCheatPlayer player = plugin.getPlayer(event.getPlayer());
         BlockBreakData data = BlockBreakCheck.getData(player);
 
         // Only interested in insta-break events here
-        if(event.getInstaBreak()) {
+        if (event.getInstaBreak()) {
             // Remember this location. We handle insta-breaks slightly
             // different in some of the blockbreak checks.
             data.instaBrokenBlockLocation.set(event.getBlock());
@@ -116,31 +117,28 @@ public class BlockBreakCheckListener implements Listener, EventManager {
     }
 
     /**
-     * We listen to BlockInteract events to be (at least in many cases) able
-     * to distinguish between blockbreak events that were triggered by players
-     * actually digging and events that were artificially created by plugins.
+     * We listen to BlockInteract events to be (at least in many cases) able to distinguish between blockbreak events that were triggered by players actually digging and events that were artificially created by plugins.
      * 
      * @param event
      */
     @EventHandler(priority = EventPriority.MONITOR)
     public void blockInteract(final PlayerInteractEvent event) {
 
-        if(event.getClickedBlock() == null)
+        if (event.getClickedBlock() == null)
             return;
 
         NoCheatPlayer player = plugin.getPlayer(event.getPlayer());
         BlockBreakData data = BlockBreakCheck.getData(player);
-        // Remember this location. Only blockbreakevents for this specific 
+        // Remember this location. Only blockbreakevents for this specific
         // block will be handled at all
         data.lastDamagedBlock.set(event.getClickedBlock());
     }
 
     /**
-     * We listen to PlayerAnimationEvent because it is (currently) equivalent
-     * to "player swings arm" and we want to check if he did that between
-     * blockbreaks.
+     * We listen to PlayerAnimationEvent because it is (currently) equivalent to "player swings arm" and we want to check if he did that between blockbreaks.
      * 
-     * @param event The PlayerAnimation Event
+     * @param event
+     *            The PlayerAnimation Event
      */
     @EventHandler(priority = EventPriority.MONITOR)
     public void armSwing(final PlayerAnimationEvent event) {
@@ -153,11 +151,11 @@ public class BlockBreakCheckListener implements Listener, EventManager {
 
         BlockBreakConfig bb = BlockBreakCheck.getConfig(cc);
 
-        if(bb.directionCheck)
+        if (bb.directionCheck)
             s.add("blockbreak.direction");
-        if(bb.reachCheck)
+        if (bb.reachCheck)
             s.add("blockbreak.reach");
-        if(bb.noswingCheck)
+        if (bb.noswingCheck)
             s.add("blockbreak.noswing");
 
         return s;

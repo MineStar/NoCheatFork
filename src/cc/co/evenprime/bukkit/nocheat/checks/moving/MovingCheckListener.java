@@ -50,12 +50,9 @@ public class MovingCheckListener implements Listener, EventManager {
     }
 
     /**
-     * A workaround for players placing blocks below them getting pushed off the
-     * block by NoCheat.
+     * A workaround for players placing blocks below them getting pushed off the block by NoCheat.
      * 
-     * It essentially moves the "setbackpoint" to the top of the newly placed
-     * block, therefore tricking NoCheat into thinking the player was already on
-     * top of that block and should be allowed to stay there
+     * It essentially moves the "setbackpoint" to the top of the newly placed block, therefore tricking NoCheat into thinking the player was already on top of that block and should be allowed to stay there
      * 
      * @param event
      *            The BlockPlaceEvent
@@ -107,9 +104,7 @@ public class MovingCheckListener implements Listener, EventManager {
     }
 
     /**
-     * If a player gets teleported, it may have two reasons. Either it was
-     * NoCheat or another plugin. If it was NoCheat, the target location should
-     * match the "data.teleportTo" value.
+     * If a player gets teleported, it may have two reasons. Either it was NoCheat or another plugin. If it was NoCheat, the target location should match the "data.teleportTo" value.
      * 
      * On teleports, reset some movement related data that gets invalid
      * 
@@ -143,8 +138,7 @@ public class MovingCheckListener implements Listener, EventManager {
     }
 
     /**
-     * Just for security, if a player switches between worlds, reset the runfly
-     * and morepackets checks data, because it is definitely invalid now
+     * Just for security, if a player switches between worlds, reset the runfly and morepackets checks data, because it is definitely invalid now
      * 
      * @param event
      *            The PlayerChangedWorldEvent
@@ -160,8 +154,7 @@ public class MovingCheckListener implements Listener, EventManager {
     }
 
     /**
-     * When a player uses a portal, all information related to the moving checks
-     * becomes invalid.
+     * When a player uses a portal, all information related to the moving checks becomes invalid.
      * 
      * @param event
      */
@@ -173,8 +166,7 @@ public class MovingCheckListener implements Listener, EventManager {
     }
 
     /**
-     * When a player respawns, all information related to the moving checks
-     * becomes invalid.
+     * When a player respawns, all information related to the moving checks becomes invalid.
      * 
      * @param event
      */
@@ -263,8 +255,7 @@ public class MovingCheckListener implements Listener, EventManager {
     }
 
     /**
-     * Just try to estimate velocities over time Not very precise, but works
-     * good enough most of the time.
+     * Just try to estimate velocities over time Not very precise, but works good enough most of the time.
      * 
      * @param data
      */
@@ -290,9 +281,7 @@ public class MovingCheckListener implements Listener, EventManager {
     }
 
     /**
-     * Player got a velocity packet. The server can't keep track of actual
-     * velocity values (by design), so we have to try and do that ourselves.
-     * Very rough estimates.
+     * Player got a velocity packet. The server can't keep track of actual velocity values (by design), so we have to try and do that ourselves. Very rough estimates.
      * 
      * @param event
      *            The PlayerVelocityEvent

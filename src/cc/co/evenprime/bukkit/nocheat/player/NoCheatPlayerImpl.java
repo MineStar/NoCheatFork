@@ -16,12 +16,12 @@ import cc.co.evenprime.bukkit.nocheat.data.ExecutionHistory;
 
 public class NoCheatPlayerImpl implements NoCheatPlayer {
 
-    private Player                  player;
-    private final NoCheat           plugin;
-    private final DataStore         data;
+    private Player player;
+    private final NoCheat plugin;
+    private final DataStore data;
     private ConfigurationCacheStore config;
-    private long                    lastUsedTime;
-    private final ExecutionHistory  history;
+    private long lastUsedTime;
+    private final ExecutionHistory history;
 
     public NoCheatPlayerImpl(Player player, NoCheat plugin) {
 
@@ -43,10 +43,10 @@ public class NoCheatPlayerImpl implements NoCheatPlayer {
     }
 
     public boolean hasPermission(String permission) {
-//        if(permission == null) {
-//            // System.out.println("NoCheat: Warning, asked for null permission");
-//            return false;
-//        }
+        // if(permission == null) {
+        // // System.out.println("NoCheat: Warning, asked for null permission");
+        // return false;
+        // }
         return UtilPermissions.playerCanUseCommand(player, permission);
     }
 
@@ -72,7 +72,7 @@ public class NoCheatPlayerImpl implements NoCheatPlayer {
 
     public float getSpeedAmplifier() {
         EntityPlayer ep = ((CraftPlayer) player).getHandle();
-        if(ep.hasEffect(MobEffectList.FASTER_MOVEMENT)) {
+        if (ep.hasEffect(MobEffectList.FASTER_MOVEMENT)) {
             // Taken directly from Minecraft code, should work
             return 1.0F + 0.2F * (float) (ep.getEffect(MobEffectList.FASTER_MOVEMENT).getAmplifier() + 1);
         } else {
@@ -83,10 +83,10 @@ public class NoCheatPlayerImpl implements NoCheatPlayer {
     @Override
     public float getJumpAmplifier() {
         EntityPlayer ep = ((CraftPlayer) player).getHandle();
-        if(ep.hasEffect(MobEffectList.JUMP)) {
+        if (ep.hasEffect(MobEffectList.JUMP)) {
             int amp = ep.getEffect(MobEffectList.JUMP).getAmplifier();
             // Very rough estimates only
-            if(amp > 20) {
+            if (amp > 20) {
                 return 1.5F * (float) (ep.getEffect(MobEffectList.JUMP).getAmplifier() + 1);
             } else {
                 return 1.2F * (float) (ep.getEffect(MobEffectList.JUMP).getAmplifier() + 1);
@@ -105,7 +105,7 @@ public class NoCheatPlayerImpl implements NoCheatPlayer {
     }
 
     public boolean shouldBeRemoved(long currentTimeInMilliseconds) {
-        if(lastUsedTime > currentTimeInMilliseconds) {
+        if (lastUsedTime > currentTimeInMilliseconds) {
             // Should never happen, but if it does, fix it somewhat
             lastUsedTime = currentTimeInMilliseconds;
         }

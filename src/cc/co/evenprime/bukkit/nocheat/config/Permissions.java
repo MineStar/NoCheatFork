@@ -10,7 +10,7 @@ public class Permissions {
     private final static String ADMIN = NOCHEAT + ".admin";
     private final static String CHECKS = NOCHEAT + ".checks";
 
-    public final static String MOVING = CHECKS + ".moving";   
+    public final static String MOVING = CHECKS + ".moving";
     public final static String MOVING_ALL = MOVING + ".*";
     public final static String MOVING_RUNFLY = MOVING + ".runfly";
     public static final String MOVING_SWIMMING = MOVING + ".swimming";

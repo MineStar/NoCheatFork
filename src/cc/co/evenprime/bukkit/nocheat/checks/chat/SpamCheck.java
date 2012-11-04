@@ -7,8 +7,7 @@ import cc.co.evenprime.bukkit.nocheat.actions.ParameterName;
 import cc.co.evenprime.bukkit.nocheat.data.Statistics.Id;
 
 /**
- * The SpamCheck will count messages and commands over a short timeframe to
- * see if the player tried to send too many of them
+ * The SpamCheck will count messages and commands over a short timeframe to see if the player tried to send too many of them
  * 
  */
 public class SpamCheck extends ChatCheck {
@@ -21,8 +20,8 @@ public class SpamCheck extends ChatCheck {
 
         boolean cancel = false;
         // Maybe it's a command and on the whitelist
-        for(String s : cc.spamWhitelist) {
-            if(data.message.startsWith(s)) {
+        for (String s : cc.spamWhitelist) {
+            if (data.message.startsWith(s)) {
                 // It is
                 return false;
             }
@@ -35,25 +34,25 @@ public class SpamCheck extends ChatCheck {
         final long time = System.currentTimeMillis();
 
         // Has enough time passed? Then reset the counters
-        if(data.spamLastTime + timeframe <= time) {
+        if (data.spamLastTime + timeframe <= time) {
             data.spamLastTime = time;
             data.messageCount = 0;
             data.commandCount = 0;
         }
 
         // Security check, if the system time changes
-        else if(data.spamLastTime > time) {
+        else if (data.spamLastTime > time) {
             data.spamLastTime = Integer.MIN_VALUE;
         }
 
         // Increment appropriate counter
-        if(data.message.startsWith("/"))
+        if (data.message.startsWith("/"))
             data.commandCount++;
         else
             data.messageCount++;
 
         // Did the player go over the limit on at least one of the counters?
-        if(data.messageCount > messageLimit || data.commandCount > commandLimit) {
+        if (data.messageCount > messageLimit || data.commandCount > commandLimit) {
 
             // Set the vl as the number of messages above the limit and
             // increment statistics
@@ -72,7 +71,7 @@ public class SpamCheck extends ChatCheck {
     @Override
     public String getParameter(ParameterName wildcard, NoCheatPlayer player) {
 
-        if(wildcard == ParameterName.VIOLATIONS)
+        if (wildcard == ParameterName.VIOLATIONS)
             return String.format(Locale.US, "%d", (int) getData(player).spamVL);
         else
             return super.getParameter(wildcard, player);

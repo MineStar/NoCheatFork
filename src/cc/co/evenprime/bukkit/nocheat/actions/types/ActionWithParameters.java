@@ -8,7 +8,7 @@ import cc.co.evenprime.bukkit.nocheat.checks.Check;
 
 /**
  * Action with parameters is used to
- *
+ * 
  */
 public abstract class ActionWithParameters extends Action {
 
@@ -26,7 +26,7 @@ public abstract class ActionWithParameters extends Action {
         String parts[] = message.split("\\[", 2);
 
         // No opening braces left
-        if(parts.length != 2) {
+        if (parts.length != 2) {
             messageParts.add(message);
         }
         // Found an opening brace
@@ -34,14 +34,14 @@ public abstract class ActionWithParameters extends Action {
             String parts2[] = parts[1].split("\\]", 2);
 
             // Found no matching closing brace
-            if(parts2.length != 2) {
+            if (parts2.length != 2) {
                 messageParts.add(message);
             }
             // Found a matching closing brace
             else {
                 ParameterName w = ParameterName.get(parts2[0]);
 
-                if(w != null) {
+                if (w != null) {
                     // Found an existing wildcard inbetween the braces
                     messageParts.add(parts[0]);
                     messageParts.add(w);
@@ -67,8 +67,8 @@ public abstract class ActionWithParameters extends Action {
         StringBuilder log = new StringBuilder(100); // Should be big enough most
                                                     // of the time
 
-        for(Object part : messageParts) {
-            if(part instanceof String) {
+        for (Object part : messageParts) {
+            if (part instanceof String) {
                 log.append((String) part);
             } else {
                 log.append(check.getParameter((ParameterName) part, player));

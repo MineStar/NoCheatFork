@@ -10,8 +10,7 @@ import cc.co.evenprime.bukkit.nocheat.data.DataStore;
 import cc.co.evenprime.bukkit.nocheat.data.SimpleLocation;
 
 /**
- * Abstract base class for BlockPlace checks, provides some convenience
- * methods for access to data and config that's relevant to this checktype
+ * Abstract base class for BlockPlace checks, provides some convenience methods for access to data and config that's relevant to this checktype
  */
 public abstract class BlockPlaceCheck extends Check {
 
@@ -23,18 +22,18 @@ public abstract class BlockPlaceCheck extends Check {
 
     @Override
     public String getParameter(ParameterName wildcard, NoCheatPlayer player) {
-        if(wildcard == ParameterName.PLACE_LOCATION) {
+        if (wildcard == ParameterName.PLACE_LOCATION) {
             SimpleLocation l = getData(player).blockPlaced;
-            if(l.isSet()) {
+            if (l.isSet()) {
                 return String.format(Locale.US, "%d %d %d", l.x, l.y, l.z);
             } else {
                 return "null";
             }
         }
 
-        else if(wildcard == ParameterName.PLACE_AGAINST) {
+        else if (wildcard == ParameterName.PLACE_AGAINST) {
             SimpleLocation l = getData(player).blockPlacedAgainst;
-            if(l.isSet()) {
+            if (l.isSet()) {
                 return String.format(Locale.US, "%d %d %d", l.x, l.y, l.z);
             } else {
                 return "null";
@@ -46,8 +45,7 @@ public abstract class BlockPlaceCheck extends Check {
     }
 
     /**
-     * Get the "BlockPlaceData" object that belongs to the player. Will ensure
-     * that such a object exists and if not, create one
+     * Get the "BlockPlaceData" object that belongs to the player. Will ensure that such a object exists and if not, create one
      * 
      * @param player
      * @return
@@ -55,7 +53,7 @@ public abstract class BlockPlaceCheck extends Check {
     public static BlockPlaceData getData(NoCheatPlayer player) {
         DataStore base = player.getDataStore();
         BlockPlaceData data = base.get(id);
-        if(data == null) {
+        if (data == null) {
             data = new BlockPlaceData();
             base.set(id, data);
         }
@@ -63,8 +61,7 @@ public abstract class BlockPlaceCheck extends Check {
     }
 
     /**
-     * Get the BlockPlaceConfig object that belongs to the world that the player
-     * currently resides in.
+     * Get the BlockPlaceConfig object that belongs to the world that the player currently resides in.
      * 
      * @param player
      * @return
@@ -75,7 +72,7 @@ public abstract class BlockPlaceCheck extends Check {
 
     public static BlockPlaceConfig getConfig(ConfigurationCacheStore cache) {
         BlockPlaceConfig config = cache.get(id);
-        if(config == null) {
+        if (config == null) {
             config = new BlockPlaceConfig(cache.getConfiguration());
             cache.set(id, config);
         }

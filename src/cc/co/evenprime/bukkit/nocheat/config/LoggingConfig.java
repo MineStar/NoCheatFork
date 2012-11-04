@@ -11,7 +11,7 @@ public class LoggingConfig {
     public final boolean toFile;
     public final boolean toConsole;
     public final boolean toChat;
-    public final String  prefix;
+    public final String prefix;
     public final boolean debugmessages;
 
     public LoggingConfig(NoCheatConfiguration data) {

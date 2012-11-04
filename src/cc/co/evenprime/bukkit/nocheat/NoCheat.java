@@ -37,8 +37,7 @@ import com.bukkit.gemo.FlyModProtection.FMProtectionCore;
  * 
  * NoCheat
  * 
- * Check various player events for their plausibility and log/deny them/react to
- * them based on configuration
+ * Check various player events for their plausibility and log/deny them/react to them based on configuration
  */
 public class NoCheat extends JavaPlugin implements Listener {
 
@@ -159,8 +158,7 @@ public class NoCheat extends JavaPlugin implements Listener {
     }
 
     /**
-     * Call this periodically to walk over the stored data map and remove
-     * old/unused entries
+     * Call this periodically to walk over the stored data map and remove old/unused entries
      * 
      */
     public void cleanDataMap() {
@@ -168,10 +166,7 @@ public class NoCheat extends JavaPlugin implements Listener {
     }
 
     /**
-     * An interface method usable by other plugins to collect information about
-     * a player. It will include the plugin version, two timestamps (beginning
-     * and end of data collection for that player), and various data from
-     * checks)
+     * An interface method usable by other plugins to collect information about a player. It will include the plugin version, two timestamps (beginning and end of data collection for that player), and various data from checks)
      * 
      * @param playerName
      *            a player name

@@ -7,9 +7,8 @@ import cc.co.evenprime.bukkit.nocheat.config.ConfigurationCacheStore;
 import cc.co.evenprime.bukkit.nocheat.data.DataStore;
 
 /**
- * Abstract base class for BlockBreakChecks. Provides some static convenience
- * methods for retrieving data and config objects for players
- *
+ * Abstract base class for BlockBreakChecks. Provides some static convenience methods for retrieving data and config objects for players
+ * 
  */
 public abstract class BlockBreakCheck extends Check {
 
@@ -20,8 +19,7 @@ public abstract class BlockBreakCheck extends Check {
     }
 
     /**
-     * Get the "BlockBreakData" object that belongs to the player. Will ensure
-     * that such a object exists and if not, create one
+     * Get the "BlockBreakData" object that belongs to the player. Will ensure that such a object exists and if not, create one
      * 
      * @param player
      * @return
@@ -29,7 +27,7 @@ public abstract class BlockBreakCheck extends Check {
     public static BlockBreakData getData(NoCheatPlayer player) {
         DataStore base = player.getDataStore();
         BlockBreakData data = base.get(id);
-        if(data == null) {
+        if (data == null) {
             data = new BlockBreakData();
             base.set(id, data);
         }
@@ -37,8 +35,7 @@ public abstract class BlockBreakCheck extends Check {
     }
 
     /**
-     * Get the BlockBreakConfig object that belongs to the world that the player
-     * currently resides in.
+     * Get the BlockBreakConfig object that belongs to the world that the player currently resides in.
      * 
      * @param player
      * @return
@@ -49,7 +46,7 @@ public abstract class BlockBreakCheck extends Check {
 
     public static BlockBreakConfig getConfig(ConfigurationCacheStore cache) {
         BlockBreakConfig config = cache.get(id);
-        if(config == null) {
+        if (config == null) {
             config = new BlockBreakConfig(cache.getConfiguration());
             cache.set(id, config);
         }

@@ -11,8 +11,7 @@ import cc.co.evenprime.bukkit.nocheat.config.Permissions;
 import cc.co.evenprime.bukkit.nocheat.data.Statistics;
 
 /**
- * The Godmode Check will find out if a player tried to stay invulnerable after
- * being hit or after dying
+ * The Godmode Check will find out if a player tried to stay invulnerable after being hit or after dying
  * 
  */
 public class GodmodeCheck extends FightCheck {
@@ -29,7 +28,7 @@ public class GodmodeCheck extends FightCheck {
         long time = System.currentTimeMillis();
 
         // Check at most once a second
-        if(data.godmodeLastDamageTime + 1000L < time) {
+        if (data.godmodeLastDamageTime + 1000L < time) {
             data.godmodeLastDamageTime = time;
 
             // How old is the player now?
@@ -39,13 +38,13 @@ public class GodmodeCheck extends FightCheck {
             // Is he invulnerable?
             int nodamageTicks = player.getPlayer().getNoDamageTicks();
 
-            if(nodamageTicks > 0 && ageDiff < 15) {
+            if (nodamageTicks > 0 && ageDiff < 15) {
                 // He is invulnerable and didn't age fast enough, that costs
                 // some points
                 data.godmodeBuffer -= (15 - ageDiff);
 
                 // Still points left?
-                if(data.godmodeBuffer <= 0) {
+                if (data.godmodeBuffer <= 0) {
                     // No, that means VL and statistics increased
                     data.godmodeVL -= data.godmodeBuffer;
                     incrementStatistics(player, Statistics.Id.FI_GODMODE, -data.godmodeBuffer);
@@ -60,10 +59,10 @@ public class GodmodeCheck extends FightCheck {
                 data.godmodeVL *= 0.95;
             }
 
-            if(data.godmodeBuffer < 0) {
+            if (data.godmodeBuffer < 0) {
                 // Can't have less than 0
                 data.godmodeBuffer = 0;
-            } else if(data.godmodeBuffer > 30) {
+            } else if (data.godmodeBuffer > 30) {
                 // And 30 is enough for simple lag situations
                 data.godmodeBuffer = 30;
             }
@@ -83,22 +82,22 @@ public class GodmodeCheck extends FightCheck {
     @Override
     public String getParameter(ParameterName wildcard, NoCheatPlayer player) {
 
-        if(wildcard == ParameterName.VIOLATIONS)
+        if (wildcard == ParameterName.VIOLATIONS)
             return String.format(Locale.US, "%d", (int) getData(player).godmodeVL);
         else
             return super.getParameter(wildcard, player);
     }
 
     /**
-     * If a player apparently died, make sure he really dies after some time
-     * if he didn't already, by setting up a Bukkit task
-     *
-     * @param player The player
+     * If a player apparently died, make sure he really dies after some time if he didn't already, by setting up a Bukkit task
+     * 
+     * @param player
+     *            The player
      */
     public void death(CraftPlayer player) {
         // First check if the player is really dead (e.g. another plugin could
         // have just fired an artificial event)
-        if(player.getHealth() <= 0 && player.isDead()) {
+        if (player.getHealth() <= 0 && player.isDead()) {
             try {
                 final EntityPlayer entity = player.getHandle();
 
@@ -109,15 +108,17 @@ public class GodmodeCheck extends FightCheck {
                         try {
                             // Check again if the player should be dead, and
                             // if the game didn't mark him as dead
-                            if(entity.getHealth() <= 0 && !entity.dead) {
+                            if (entity.getHealth() <= 0 && !entity.dead) {
                                 // Artifically "kill" him
                                 entity.deathTicks = 19;
                                 entity.die();
                             }
-                        } catch(Exception e) {}
+                        } catch (Exception e) {
+                        }
                     }
                 }, 30);
-            } catch(Exception e) {}
+            } catch (Exception e) {
+            }
         }
     }
 }

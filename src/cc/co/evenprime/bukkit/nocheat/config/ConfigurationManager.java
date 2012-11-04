@@ -21,12 +21,12 @@ import cc.co.evenprime.bukkit.nocheat.NoCheat;
  */
 public class ConfigurationManager {
 
-    private final static String                        configFileName            = "config.yml";
+    private final static String configFileName = "config.yml";
 
     private final Map<String, ConfigurationCacheStore> worldnameToConfigCacheMap = new HashMap<String, ConfigurationCacheStore>();
 
-    private FileHandler                                fileHandler;
-    private final NoCheat                              plugin;
+    private FileHandler fileHandler;
+    private final NoCheat plugin;
 
     private static class LogFileFormatter extends Formatter {
 
@@ -48,7 +48,7 @@ public class ConfigurationManager {
             builder.append(record.getMessage());
             builder.append('\n');
 
-            if(ex != null) {
+            if (ex != null) {
                 StringWriter writer = new StringWriter();
                 ex.printStackTrace(new PrintWriter(writer));
                 builder.append(writer);
@@ -68,8 +68,7 @@ public class ConfigurationManager {
     }
 
     /**
-     * Read the configuration file and assign either standard values or whatever
-     * is declared in the file
+     * Read the configuration file and assign either standard values or whatever is declared in the file
      * 
      * @param configurationFile
      */
@@ -83,17 +82,17 @@ public class ConfigurationManager {
 
         File globalConfigFile = getGlobalConfigFile(rootConfigFolder);
 
-        if(globalConfigFile.exists()) {
+        if (globalConfigFile.exists()) {
             try {
                 root.load(globalConfigFile);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
         try {
             root.save(globalConfigFile);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -108,7 +107,7 @@ public class ConfigurationManager {
         // Try to find world-specific config files
         Map<String, File> worldFiles = getWorldSpecificConfigFiles(rootConfigFolder);
 
-        for(Entry<String, File> worldEntry : worldFiles.entrySet()) {
+        for (Entry<String, File> worldEntry : worldFiles.entrySet()) {
 
             File worldConfigFile = worldEntry.getValue();
 
@@ -123,7 +122,7 @@ public class ConfigurationManager {
                 // write the config file back to disk immediately
                 world.save(worldConfigFile);
 
-            } catch(Exception e) {
+            } catch (Exception e) {
                 System.out.println("NoCheat: Couldn't load world-specific config for " + worldEntry.getKey());
                 e.printStackTrace();
             }
@@ -143,11 +142,11 @@ public class ConfigurationManager {
 
         HashMap<String, File> files = new HashMap<String, File>();
 
-        if(rootFolder.isDirectory()) {
-            for(File f : rootFolder.listFiles()) {
-                if(f.isFile()) {
+        if (rootFolder.isDirectory()) {
+            for (File f : rootFolder.listFiles()) {
+                if (f.isFile()) {
                     String filename = f.getName();
-                    if(filename.matches(".+_" + configFileName + "$")) {
+                    if (filename.matches(".+_" + configFileName + "$")) {
                         // Get the first part = world name
                         String worldname = filename.substring(0, filename.length() - (configFileName.length() + 1));
                         files.put(worldname, f);
@@ -164,11 +163,11 @@ public class ConfigurationManager {
         l.setLevel(Level.INFO);
         // Ignore parent's settings
         l.setUseParentHandlers(false);
-        for(Handler h : l.getHandlers()) {
+        for (Handler h : l.getHandlers()) {
             l.removeHandler(h);
         }
 
-        if(fileHandler != null) {
+        if (fileHandler != null) {
             fileHandler.close();
             l.removeHandler(fileHandler);
             fileHandler = null;
@@ -177,7 +176,7 @@ public class ConfigurationManager {
         try {
             try {
                 logfile.getParentFile().mkdirs();
-            } catch(Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             fileHandler = new FileHandler(logfile.getCanonicalPath(), true);
@@ -185,7 +184,7 @@ public class ConfigurationManager {
             fileHandler.setFormatter(new LogFileFormatter());
 
             l.addHandler(fileHandler);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -193,8 +192,7 @@ public class ConfigurationManager {
     }
 
     /**
-     * Reset the loggers and flush and close the fileHandlers
-     * to be able to use them next time without problems
+     * Reset the loggers and flush and close the fileHandlers to be able to use them next time without problems
      */
     public void cleanup() {
         fileHandler.flush();
@@ -205,8 +203,7 @@ public class ConfigurationManager {
     }
 
     /**
-     * Get the cache of the specified world, or the default cache,
-     * if no cache exists for that world.
+     * Get the cache of the specified world, or the default cache, if no cache exists for that world.
      * 
      * @param worldname
      * @return
@@ -215,7 +212,7 @@ public class ConfigurationManager {
 
         ConfigurationCacheStore cache = worldnameToConfigCacheMap.get(worldname);
 
-        if(cache != null) {
+        if (cache != null) {
             return cache;
         } else {
             // Enter a reference to the cache under the new name

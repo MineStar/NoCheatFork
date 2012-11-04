@@ -10,17 +10,17 @@ import cc.co.evenprime.bukkit.nocheat.DataItem;
 public class InventoryData implements DataItem {
 
     // Keep track of the violation levels of the three checks
-    public int      dropVL;
-    public int      instantBowVL;
-    public double   instantEatVL;
+    public int dropVL;
+    public int instantBowVL;
+    public double instantEatVL;
 
     // Time and amount of dropped items
-    public long     dropLastTime;
-    public int      dropCount;
+    public long dropLastTime;
+    public int dropCount;
 
     // Times when bow shootinhg and eating started
-    public long     lastBowInteractTime;
-    public long     lastEatInteractTime;
+    public long lastBowInteractTime;
+    public long lastEatInteractTime;
 
     // What the player is eating
     public Material foodMaterial;

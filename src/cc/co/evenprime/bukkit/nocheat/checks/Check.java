@@ -108,9 +108,7 @@ public abstract class Check {
     }
 
     /**
-     * Replace a parameter for commands or log actions with an actual value.
-     * Individual checks should override this to get their own parameters
-     * handled too.
+     * Replace a parameter for commands or log actions with an actual value. Individual checks should override this to get their own parameters handled too.
      * 
      * @param wildcard
      * @param player

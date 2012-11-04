@@ -14,14 +14,14 @@ public class ColorCheck extends ChatCheck {
 
     public boolean check(NoCheatPlayer player, ChatData data, ChatConfig cc) {
 
-        if(data.message.matches(".*\247.*")) {
+        if (data.message.matches(".*\247.*")) {
 
             data.colorVL += 1;
             incrementStatistics(player, Id.CHAT_COLOR, 1);
 
             boolean filter = executeActions(player, cc.colorActions, data.colorVL);
 
-            if(filter) {
+            if (filter) {
                 // Remove color codes
                 data.message = data.message.replaceAll("\302\247.", "").replaceAll("\247.", "");
             }
@@ -32,7 +32,7 @@ public class ColorCheck extends ChatCheck {
 
     public String getParameter(ParameterName wildcard, NoCheatPlayer player) {
 
-        if(wildcard == ParameterName.VIOLATIONS)
+        if (wildcard == ParameterName.VIOLATIONS)
             return String.format(Locale.US, "%d", (int) getData(player).colorVL);
         else
             return super.getParameter(wildcard, player);

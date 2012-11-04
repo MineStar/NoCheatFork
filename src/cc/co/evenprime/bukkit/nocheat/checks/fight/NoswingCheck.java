@@ -8,9 +8,8 @@ import cc.co.evenprime.bukkit.nocheat.config.Permissions;
 import cc.co.evenprime.bukkit.nocheat.data.Statistics.Id;
 
 /**
- * We require that the player moves his arm between attacks, this is
- * what gets checked here.
- *
+ * We require that the player moves his arm between attacks, this is what gets checked here.
+ * 
  */
 public class NoswingCheck extends FightCheck {
 
@@ -23,7 +22,7 @@ public class NoswingCheck extends FightCheck {
         boolean cancel = false;
 
         // did he swing his arm before?
-        if(data.armswung) {
+        if (data.armswung) {
             // Yes, reward him with reduction of his vl
             data.armswung = false;
             data.noswingVL *= 0.90D;
@@ -48,7 +47,7 @@ public class NoswingCheck extends FightCheck {
     @Override
     public String getParameter(ParameterName wildcard, NoCheatPlayer player) {
 
-        if(wildcard == ParameterName.VIOLATIONS)
+        if (wildcard == ParameterName.VIOLATIONS)
             return String.format(Locale.US, "%d", (int) getData(player).noswingVL);
         else
             return super.getParameter(wildcard, player);
