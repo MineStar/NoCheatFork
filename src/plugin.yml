@@ -1,8 +1,8 @@
 name: NoCheat
 version: 1.0
 description: ${project.description}
-depend: [SinCity]
 author: Evenprime
+depend: [MinestarCore]
 website: ${project.url}
 
 main: cc.co.evenprime.bukkit.nocheat.NoCheat

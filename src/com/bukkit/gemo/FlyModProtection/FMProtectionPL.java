@@ -21,6 +21,8 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 
 import com.bukkit.gemo.utils.UtilPermissions;
 
+import de.minestar.core.MinestarCore;
+
 public class FMProtectionPL implements Listener {
     /************************/
     /** VARS */
@@ -71,7 +73,17 @@ public class FMProtectionPL implements Listener {
 
     private void doZoneCheck(Player player, Location from, Location to) {
         if (player.isOp()) {
-            if (player.getGameMode() != GameMode.ADVENTURE) {
+            Boolean forceCheck = MinestarCore.getPlayer(player.getPlayer()).getBoolean("flight.forceCheck");
+            if (forceCheck == null) {
+                forceCheck = false;
+            }
+
+            Boolean allowFlight = MinestarCore.getPlayer(player.getPlayer()).getBoolean("flight.allowFlight");
+            if (allowFlight == null) {
+                allowFlight = false;
+            }
+
+            if (player.getGameMode() != GameMode.ADVENTURE && !forceCheck) {
                 player.setAllowFlight(true);
             }
             return;

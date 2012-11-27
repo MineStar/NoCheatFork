@@ -42,6 +42,8 @@ public class FlyingCheck extends MovingCheck {
         // players are flying too high
         int maxheight = ccmoving.flyingHeightLimit + player.getPlayer().getWorld().getMaxHeight();
 
+        System.out.println((to.y - data.vertFreedom) + " : " + maxheight);
+
         if (to.y - data.vertFreedom > maxheight) {
             newToLocation = new PreciseLocation();
             newToLocation.set(setBack);
@@ -139,7 +141,6 @@ public class FlyingCheck extends MovingCheck {
 
         return newToLocation;
     }
-
     @Override
     public String getParameter(ParameterName wildcard, NoCheatPlayer player) {
 

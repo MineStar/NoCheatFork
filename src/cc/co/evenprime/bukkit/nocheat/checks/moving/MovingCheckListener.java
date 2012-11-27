@@ -18,8 +18,6 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerVelocityEvent;
 import org.bukkit.util.Vector;
 
-import com.bukkit.gemo.utils.UtilPermissions;
-
 import cc.co.evenprime.bukkit.nocheat.EventManager;
 import cc.co.evenprime.bukkit.nocheat.NoCheat;
 import cc.co.evenprime.bukkit.nocheat.NoCheatPlayer;
@@ -27,6 +25,10 @@ import cc.co.evenprime.bukkit.nocheat.checks.CheckUtil;
 import cc.co.evenprime.bukkit.nocheat.config.ConfigurationCacheStore;
 import cc.co.evenprime.bukkit.nocheat.config.Permissions;
 import cc.co.evenprime.bukkit.nocheat.data.PreciseLocation;
+
+import com.bukkit.gemo.utils.UtilPermissions;
+
+import de.minestar.core.MinestarCore;
 
 /**
  * Central location to listen to events that are relevant for the moving checks
@@ -202,11 +204,27 @@ public class MovingCheckListener implements Listener, EventManager {
         final MovingConfig cc = MovingCheck.getConfig(player);
         final MovingData data = MovingCheck.getData(player);
 
+        Boolean forceCheck = MinestarCore.getPlayer(player.getPlayer()).getBoolean("flight.forceCheck");
+        if (forceCheck == null) {
+            forceCheck = false;
+        }
+
+        Boolean allowFlight = MinestarCore.getPlayer(player.getPlayer()).getBoolean("flight.allowFlight");
+        if (allowFlight == null) {
+            allowFlight = false;
+        }
+
+        if (forceCheck) {
+            event.getPlayer().setAllowFlight(false);
+        }
+
         if ((event.getPlayer().isOp() && event.getPlayer().getGameMode() != GameMode.ADVENTURE) || event.getPlayer().getAllowFlight()) {
-            data.teleportTo.set(event.getTo());
-            data.to.set(event.getTo());
-            data.runflySetBackPoint.set(event.getTo());
-            return;
+            if (!forceCheck) {
+                data.teleportTo.set(event.getTo());
+                data.to.set(event.getTo());
+                data.runflySetBackPoint.set(event.getTo());
+                return;
+            }
         }
 
         // Advance various counters and values that change per movement
@@ -223,11 +241,11 @@ public class MovingCheckListener implements Listener, EventManager {
 
         /** RUNFLY CHECK SECTION **/
         // If the player isn't handled by runfly checks
-        if (!cc.runflyCheck || event.getPlayer().getAllowFlight()) {
+        if (!cc.runflyCheck || (event.getPlayer().getAllowFlight() && !forceCheck)) {
             // Just because he is allowed now, doesn't mean he will always
             // be. So forget data about the player related to moving
             data.clearRunFlyData();
-        } else if (event.getPlayer().getAllowFlight()) {
+        } else if (event.getPlayer().getAllowFlight() && !forceCheck) {
             // Only do the limited flying check
             newTo = flyingCheck.check(player, data, cc);
         } else {
@@ -236,7 +254,7 @@ public class MovingCheckListener implements Listener, EventManager {
         }
 
         /** MOREPACKETS CHECK SECTION **/
-        if (!cc.morePacketsCheck || event.getPlayer().getAllowFlight()) {
+        if (!cc.morePacketsCheck || (event.getPlayer().getAllowFlight() && !forceCheck)) {
             data.clearMorePacketsData();
         } else if (newTo == null) {
             newTo = morePacketsCheck.check(player, data, cc);
@@ -244,6 +262,7 @@ public class MovingCheckListener implements Listener, EventManager {
 
         // Did one of the check(s) decide we need a new "to"-location?
         if (newTo != null) {
+            System.out.println("newto!");
             // Compose a new location based on coordinates of "newTo" and
             // viewing direction of "event.getTo()" to allow the player to
             // look somewhere else despite getting pulled back by NoCheat
@@ -253,7 +272,6 @@ public class MovingCheckListener implements Listener, EventManager {
             data.teleportTo.set(newTo);
         }
     }
-
     /**
      * Just try to estimate velocities over time Not very precise, but works good enough most of the time.
      * 
