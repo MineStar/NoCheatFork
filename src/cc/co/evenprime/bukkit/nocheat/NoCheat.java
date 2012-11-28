@@ -142,7 +142,7 @@ public class NoCheat extends JavaPlugin implements Listener {
 
         boolean result = commandHandler.handleCommand(this, sender, command, label, args);
 
-        return result;
+        return true;
     }
 
     public boolean skipCheck() {

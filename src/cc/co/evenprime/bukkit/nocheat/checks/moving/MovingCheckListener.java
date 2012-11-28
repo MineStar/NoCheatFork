@@ -262,7 +262,6 @@ public class MovingCheckListener implements Listener, EventManager {
 
         // Did one of the check(s) decide we need a new "to"-location?
         if (newTo != null) {
-            System.out.println("newto!");
             // Compose a new location based on coordinates of "newTo" and
             // viewing direction of "event.getTo()" to allow the player to
             // look somewhere else despite getting pulled back by NoCheat

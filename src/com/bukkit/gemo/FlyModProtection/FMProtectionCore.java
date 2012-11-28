@@ -202,12 +202,13 @@ public class FMProtectionCore {
             return true;
         }
 
-        if (args == null)
+        if (args == null) {
             return true;
+        }
 
-        if (args.length != 1 && args.length != 2) {
+        if (args.length < 1 || args.length > 2) {
             player.sendMessage(ChatColor.RED + "[FlyZone] Wrong Syntax!");
-            player.sendMessage(ChatColor.GRAY + "Use: /fly 1 or /fly 2");
+            player.sendMessage(ChatColor.GRAY + "Use: /fly 1, /fly 2 or /fly info");
             return true;
         }
 
@@ -225,75 +226,131 @@ public class FMProtectionCore {
             }
         }
 
-        try {
-            if (Integer.valueOf(args[0]) != 1 && Integer.valueOf(args[0]) != 2) {
+        if (args[0].equalsIgnoreCase("info")) {
+            // fly info
+            if (!pListener.flyAreas.containsKey(player.getName())) {
+                player.sendMessage(ChatColor.RED + "[FlyZone] You have no flyzone!");
+                return true;
+            }
+
+            long oldSaveTime = pListener.flyAreas.get(player.getName()).lastSavedTime;
+            int hoursToWait = 48;
+            long coolDown = 1000 * 60 * 60 * hoursToWait;
+
+            Date d = new Date(oldSaveTime + coolDown);
+            player.sendMessage(ChatColor.GRAY + "Next change available on this date: " + d);
+            return true;
+        } else {
+            // fly 1 or fly 2 <NAME>
+            try {
+                if (Integer.valueOf(args[0]) != 1 && Integer.valueOf(args[0]) != 2) {
+                    player.sendMessage(ChatColor.RED + "[FlyZone] Wrong Syntax!");
+                    player.sendMessage(ChatColor.GRAY + "Use: /fly 1 or /fly 2");
+                    return true;
+                }
+            } catch (Exception e) {
                 player.sendMessage(ChatColor.RED + "[FlyZone] Wrong Syntax!");
                 player.sendMessage(ChatColor.GRAY + "Use: /fly 1 or /fly 2");
                 return true;
             }
-        } catch (Exception e) {
-            player.sendMessage(ChatColor.RED + "[FlyZone] Wrong Syntax!");
-            player.sendMessage(ChatColor.GRAY + "Use: /fly 1 or /fly 2");
-            return true;
-        }
 
-        int type = Integer.valueOf(args[0]);
+            int type = -1;
+            try {
+                type = Integer.valueOf(args[0]);
+            } catch (Exception e) {
 
-        if (type == 1) {
-            FMChunkArea area = new FMChunkArea();
-            area.worldName = player.getWorld().getName();
-            area.chunk1_x = player.getLocation().getBlock().getChunk().getX();
-            area.chunk1_z = player.getLocation().getBlock().getChunk().getZ();
-            selections.put(player.getName(), area);
-            player.sendMessage(ChatColor.GREEN + "[FlyZone] Point 1 set!");
-        } else {
-            if (!selections.containsKey(player.getName())) {
-                player.sendMessage(ChatColor.RED + "[FlyZone] Use /fly 1 first!");
+            }
+
+            if (type < 1 || type > 2) {
+                player.sendMessage(ChatColor.RED + "[FlyZone] Wrong Syntax!");
+                player.sendMessage(ChatColor.GRAY + "Use: /fly 1 or /fly 2");
                 return true;
             }
 
-            long oldSaveTime = 0;
-            FMChunkArea area = selections.get(player.getName());
-            if (pListener.flyAreas.containsKey(player.getName())) {
-                oldSaveTime = pListener.flyAreas.get(player.getName()).lastSavedTime;
+            // fly 2 <NAME>
+            boolean isOp = player.isOp() && args.length > 1;
+
+            Player thisPlayer = player;
+            if (isOp) {
+                thisPlayer = Bukkit.getPlayer(args[1]);
             }
 
-            long thisSaveTime = System.currentTimeMillis();
-            int hoursToWait = 48;
-            long coolDown = 1000 * 60 * 60 * hoursToWait;
-            long elapsedTime = thisSaveTime - oldSaveTime;
-            long leftTime = coolDown - elapsedTime;
-
-            if (!area.worldName.equalsIgnoreCase(player.getWorld().getName())) {
-                player.sendMessage(ChatColor.RED + "[FlyZone] You have selected different worlds!");
+            if (thisPlayer == null || !thisPlayer.isOnline()) {
+                player.sendMessage(ChatColor.RED + "Player '" + args[1] + " ' is not online!");
                 return true;
             }
 
-            if (leftTime >= 0) {
-                Date d = new Date(oldSaveTime + coolDown);
-                player.sendMessage(ChatColor.RED + "[FlyZone] You have to wait at least " + hoursToWait + " hours to define a new FlyZone!");
-                player.sendMessage(ChatColor.GRAY + "Next change available on this date: " + d);
-                return true;
+            if (type == 1) {
+                // fly 1
+                FMChunkArea area = new FMChunkArea();
+                area.worldName = player.getWorld().getName();
+                area.chunk1_x = player.getLocation().getBlock().getChunk().getX();
+                area.chunk1_z = player.getLocation().getBlock().getChunk().getZ();
+                selections.put(thisPlayer.getName(), area);
+                player.sendMessage(ChatColor.GREEN + "[FlyZone] Point 1 set!");
+            } else {
+
+                if (!selections.containsKey(thisPlayer.getName())) {
+                    player.sendMessage(ChatColor.RED + "[FlyZone] Use /fly 1 first!");
+                    return true;
+                }
+
+                long oldSaveTime = 0;
+                FMChunkArea area = selections.get(thisPlayer.getName());
+                if (pListener.flyAreas.containsKey(thisPlayer.getName())) {
+                    oldSaveTime = pListener.flyAreas.get(thisPlayer.getName()).lastSavedTime;
+                }
+
+                // override admins
+                if (!isOp) {
+                    long thisSaveTime = System.currentTimeMillis();
+                    int hoursToWait = 48;
+                    long coolDown = 1000 * 60 * 60 * hoursToWait;
+                    long elapsedTime = thisSaveTime - oldSaveTime;
+                    long leftTime = coolDown - elapsedTime;
+
+                    if (!area.worldName.equalsIgnoreCase(player.getWorld().getName())) {
+                        player.sendMessage(ChatColor.RED + "[FlyZone] You have selected different worlds!");
+                        return true;
+                    }
+
+                    if (leftTime >= 0) {
+                        Date d = new Date(oldSaveTime + coolDown);
+                        player.sendMessage(ChatColor.RED + "[FlyZone] You have to wait at least " + hoursToWait + " hours to define a new FlyZone!");
+                        player.sendMessage(ChatColor.GRAY + "Next change available on this date: " + d);
+                        return true;
+                    }
+                }
+
+                area.chunk2_x = player.getLocation().getBlock().getChunk().getX();
+                area.chunk2_z = player.getLocation().getBlock().getChunk().getZ();
+
+                // override admins
+                if (!isOp) {
+                    int maxChunkCount = 8;
+                    if (Math.abs(area.chunk2_x - area.chunk1_x) >= maxChunkCount || Math.abs(area.chunk2_z - area.chunk1_z) >= maxChunkCount) {
+                        player.sendMessage(ChatColor.RED + "[FlyZone] The selected area is too large!");
+                        player.sendMessage(ChatColor.GRAY + "Maximum is " + maxChunkCount + "x" + maxChunkCount + " Chunks");
+                        return true;
+                    }
+                }
+
+                area.empty = false;
+                area.lastSavedTime = System.currentTimeMillis();
+                area.worldName = player.getLocation().getWorld().getName();
+                area.updatePositions();
+                addZone(thisPlayer.getName(), area);
+                pListener.flyAreas.put(thisPlayer.getName(), area);
+
+                if (thisPlayer != null && thisPlayer.isOnline()) {
+                    pListener.addPermission(thisPlayer, true);
+                    if (!isOp) {
+                        player.sendMessage(ChatColor.GREEN + "[FlyZone] Area set!");
+                    } else {
+                        player.sendMessage(ChatColor.GREEN + "[FlyZone] Area for '" + thisPlayer.getName() + "' set!");
+                    }
+                }
             }
-
-            area.chunk2_x = player.getLocation().getBlock().getChunk().getX();
-            area.chunk2_z = player.getLocation().getBlock().getChunk().getZ();
-            int maxChunkCount = 8;
-            if (Math.abs(area.chunk2_x - area.chunk1_x) >= maxChunkCount || Math.abs(area.chunk2_z - area.chunk1_z) >= maxChunkCount) {
-                player.sendMessage(ChatColor.RED + "[FlyZone] The selected area is too large!");
-                player.sendMessage(ChatColor.GRAY + "Maximum is " + maxChunkCount + "x" + maxChunkCount + " Chunks");
-                return true;
-            }
-
-            area.empty = false;
-            area.lastSavedTime = System.currentTimeMillis();
-            area.worldName = player.getLocation().getWorld().getName();
-            area.updatePositions();
-            addZone(player.getName(), area);
-            pListener.flyAreas.put(player.getName(), area);
-
-            pListener.addPermission(player, true);
-            player.sendMessage(ChatColor.GREEN + "[FlyZone] Area set!");
         }
 
         return true;
