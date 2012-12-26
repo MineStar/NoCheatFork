@@ -139,9 +139,7 @@ public class NoCheat extends JavaPlugin implements Listener {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         this.zonePlugin.onCommand(sender, command, label, args);
-
-        boolean result = commandHandler.handleCommand(this, sender, command, label, args);
-
+        commandHandler.handleCommand(this, sender, command, label, args);
         return true;
     }
 

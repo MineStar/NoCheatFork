@@ -1,18 +1,19 @@
 package cc.co.evenprime.bukkit.nocheat.player;
 
-import net.minecraft.server.EntityPlayer;
-import net.minecraft.server.MobEffectList;
-import org.bukkit.GameMode;
-import org.bukkit.craftbukkit.entity.CraftPlayer;
-import org.bukkit.entity.Player;
+import net.minecraft.server.v1_4_6.EntityPlayer;
+import net.minecraft.server.v1_4_6.MobEffectList;
 
-import com.bukkit.gemo.utils.UtilPermissions;
+import org.bukkit.GameMode;
+import org.bukkit.craftbukkit.v1_4_6.entity.CraftPlayer;
+import org.bukkit.entity.Player;
 
 import cc.co.evenprime.bukkit.nocheat.NoCheat;
 import cc.co.evenprime.bukkit.nocheat.NoCheatPlayer;
 import cc.co.evenprime.bukkit.nocheat.config.ConfigurationCacheStore;
 import cc.co.evenprime.bukkit.nocheat.data.DataStore;
 import cc.co.evenprime.bukkit.nocheat.data.ExecutionHistory;
+
+import com.bukkit.gemo.utils.UtilPermissions;
 
 public class NoCheatPlayerImpl implements NoCheatPlayer {
 

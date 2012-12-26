@@ -2,9 +2,9 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="C:/Users/GeMo/Desktop/servers/craftbukkit.jar"/>
 	<classpathentry kind="lib" path="C:/Users/GeMo/Desktop/servers/clearServer/plugins/MinestarCore-1.6.6.jar"/>
 	<classpathentry kind="lib" path="C:/Users/GeMo/Desktop/servers/clearServer/plugins/FalseBookCore-0.94.2alpha.jar"/>
 	<classpathentry kind="lib" path="C:/Users/GeMo/Desktop/servers/clearServer/plugins/MineStarLibrary-1.9.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="C:/Users/GeMo/Desktop/servers/craftbukkit-1.4.6-R0.2-20121225.120128-12.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

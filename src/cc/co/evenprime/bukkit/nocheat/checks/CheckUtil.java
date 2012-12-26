@@ -2,12 +2,15 @@ package cc.co.evenprime.bukkit.nocheat.checks;
 
 import java.util.HashSet;
 import java.util.Set;
-import net.minecraft.server.Block;
+
+import net.minecraft.server.v1_4_6.Block;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
+
 import cc.co.evenprime.bukkit.nocheat.NoCheatPlayer;
 import cc.co.evenprime.bukkit.nocheat.data.PreciseLocation;
 
