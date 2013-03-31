@@ -218,7 +218,8 @@ public class MovingCheckListener implements Listener, EventManager {
             event.getPlayer().setAllowFlight(false);
         }
 
-        if ((event.getPlayer().isOp() && event.getPlayer().getGameMode() != GameMode.ADVENTURE) || event.getPlayer().getAllowFlight()) {
+        boolean access = ((event.getPlayer().isOp() || UtilPermissions.playerCanUseCommand(event.getPlayer(), "fly.allow")) && event.getPlayer().getGameMode() != GameMode.ADVENTURE) || event.getPlayer().getAllowFlight();
+        if (access) {
             if (!forceCheck) {
                 data.teleportTo.set(event.getTo());
                 data.to.set(event.getTo());

@@ -2,10 +2,10 @@ package cc.co.evenprime.bukkit.nocheat.checks.fight;
 
 import java.util.Locale;
 
-import net.minecraft.server.v1_4_6.EntityPlayer;
+import net.minecraft.server.v1_5_R2.EntityPlayer;
 
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_4_6.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_5_R2.entity.CraftPlayer;
 
 import cc.co.evenprime.bukkit.nocheat.NoCheat;
 import cc.co.evenprime.bukkit.nocheat.NoCheatPlayer;

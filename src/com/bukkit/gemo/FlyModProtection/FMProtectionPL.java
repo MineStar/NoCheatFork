@@ -8,7 +8,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_4_6.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_5_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -72,7 +72,7 @@ public class FMProtectionPL implements Listener {
     }
 
     private void doZoneCheck(Player player, Location from, Location to) {
-        if (player.isOp()) {
+        if (UtilPermissions.playerCanUseCommand(player, "fly.allow")) {
             Boolean forceCheck = MinestarCore.getPlayer(player.getPlayer()).getBoolean("flight.forceCheck");
             if (forceCheck == null) {
                 forceCheck = false;
@@ -171,6 +171,7 @@ public class FMProtectionPL implements Listener {
             inZone.put(playerName, false);
         }
     }
+
     // ADD PERMISSION
     public void addPermission(Player player, boolean showMSG) {
         if (player.getGameMode() != GameMode.ADVENTURE) {
