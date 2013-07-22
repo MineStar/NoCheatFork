@@ -1,10 +1,11 @@
 package cc.co.evenprime.bukkit.nocheat.player;
 
-import net.minecraft.server.v1_5_R3.EntityPlayer;
-import net.minecraft.server.v1_5_R3.MobEffectList;
+import net.minecraft.server.v1_6_R2.EntityPlayer;
+import net.minecraft.server.v1_6_R2.MobEffectList;
 
 import org.bukkit.GameMode;
-import org.bukkit.craftbukkit.v1_5_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_6_R2.entity.CraftPlayer;
+import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Player;
 
 import cc.co.evenprime.bukkit.nocheat.NoCheat;
@@ -40,7 +41,7 @@ public class NoCheatPlayerImpl implements NoCheatPlayer {
     }
 
     public boolean isDead() {
-        return this.player.getHealth() <= 0 || this.player.isDead();
+        return ((Damageable) this.player).getHealth() <= 0 || this.player.isDead();
     }
 
     public boolean hasPermission(String permission) {
