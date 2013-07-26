@@ -1,0 +1,49 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<groupId>cc.co</groupId>
+	<artifactId>NoCheat</artifactId>
+	<version>1.6.2_R1-SNAPSHOT</version>
+
+	<distributionManagement>
+		<!-- use the following if you're not using a snapshot version. -->
+		<repository>
+			<id>minestarDeployment</id>
+			<name>Internal Releases</name>
+			<url>http://server2.minestar.de:8081/nexus/content/repositories/releases</url>
+		</repository>
+		<!-- use the following if you ARE using a snapshot version. -->
+		<snapshotRepository>
+			<id>minestarDeployment</id>
+			<name>Internal Releases</name>
+			<url>http://server2.minestar.de:8081/nexus/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<repositories>
+		<repository>
+			<id>MinestarNexus</id>
+			<url>http://server2.minestar.de:8081/nexus/content/groups/public/</url>
+		</repository>
+	</repositories>
+
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<resources>
+			<resource>
+				<directory>src/main/resources/</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>de.minestar</groupId>
+			<artifactId>MinestarCore</artifactId>
+			<version>1.6.2_R1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+
+</project>
