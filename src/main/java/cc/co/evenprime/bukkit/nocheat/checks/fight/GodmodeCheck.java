@@ -2,10 +2,10 @@ package cc.co.evenprime.bukkit.nocheat.checks.fight;
 
 import java.util.Locale;
 
-import net.minecraft.server.v1_6_R2.EntityPlayer;
+import net.minecraft.server.v1_7_R1.EntityPlayer;
 
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_6_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_7_R1.entity.CraftPlayer;
 
 import cc.co.evenprime.bukkit.nocheat.NoCheat;
 import cc.co.evenprime.bukkit.nocheat.NoCheatPlayer;
@@ -14,7 +14,8 @@ import cc.co.evenprime.bukkit.nocheat.config.Permissions;
 import cc.co.evenprime.bukkit.nocheat.data.Statistics;
 
 /**
- * The Godmode Check will find out if a player tried to stay invulnerable after being hit or after dying
+ * The Godmode Check will find out if a player tried to stay invulnerable after
+ * being hit or after dying
  * 
  */
 public class GodmodeCheck extends FightCheck {
@@ -52,8 +53,10 @@ public class GodmodeCheck extends FightCheck {
                     data.godmodeVL -= data.godmodeBuffer;
                     incrementStatistics(player, Statistics.Id.FI_GODMODE, -data.godmodeBuffer);
 
-                    // Execute whatever actions are associated with this check and the
-                    // violation level and find out if we should cancel the event
+                    // Execute whatever actions are associated with this check
+                    // and the
+                    // violation level and find out if we should cancel the
+                    // event
                     cancelled = executeActions(player, cc.godmodeActions, data.godmodeVL);
                 }
             } else {
@@ -92,7 +95,8 @@ public class GodmodeCheck extends FightCheck {
     }
 
     /**
-     * If a player apparently died, make sure he really dies after some time if he didn't already, by setting up a Bukkit task
+     * If a player apparently died, make sure he really dies after some time if
+     * he didn't already, by setting up a Bukkit task
      * 
      * @param player
      *            The player

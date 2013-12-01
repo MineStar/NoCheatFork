@@ -3,7 +3,7 @@ package cc.co.evenprime.bukkit.nocheat.checks;
 import java.util.HashSet;
 import java.util.Set;
 
-import net.minecraft.server.v1_6_R2.Block;
+import net.minecraft.server.v1_7_R1.Block;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -15,13 +15,15 @@ import cc.co.evenprime.bukkit.nocheat.NoCheatPlayer;
 import cc.co.evenprime.bukkit.nocheat.data.PreciseLocation;
 
 /**
- * Some stuff that's used by different checks or just too complex to keep in other places
+ * Some stuff that's used by different checks or just too complex to keep in
+ * other places
  * 
  */
 public class CheckUtil {
 
     /**
-     * Check if a player looks at a target of a specific size, with a specific precision value (roughly)
+     * Check if a player looks at a target of a specific size, with a specific
+     * precision value (roughly)
      */
     public static final double directionCheck(final NoCheatPlayer player, final double targetX, final double targetY, final double targetZ, final double targetWidth, final double targetHeight, final double precision) {
 
@@ -106,12 +108,12 @@ public class CheckUtil {
 
             // Everything unknown is considered nonsolid and solid
             types[i] = NONSOLID | SOLID;
-
-            if (Block.byId[i] != null) {
-                if (Block.byId[i].material.isSolid()) {
+            if (Block.REGISTRY != null) {
+                Block b = (Block) Block.REGISTRY.a(i);
+                if (b.getMaterial().isSolid()) {
                     // STONE, CAKE, LEAFS, ...
                     types[i] = SOLID;
-                } else if (Block.byId[i].material.isLiquid()) {
+                } else if (b.getMaterial().isLiquid()) {
                     // WATER, LAVA, ...
                     types[i] = LIQUID;
                 } else {
@@ -163,7 +165,10 @@ public class CheckUtil {
         types[Material.WATER_LILY.getId()] = SOLID | NONSOLID;
 
         /*
-         * for(int i = 0; i < 256; i++) { if(Block.byId[i] != null) { System.out.println(Material.getMaterial(i) + (isSolid(types[i]) ? " solid " : "") + (isNonSolid(types[i]) ? " nonsolid " : "") + (isLiquid(types[i]) ? " liquid " : "")); } }
+         * for(int i = 0; i < 256; i++) { if(Block.byId[i] != null) {
+         * System.out.println(Material.getMaterial(i) + (isSolid(types[i]) ?
+         * " solid " : "") + (isNonSolid(types[i]) ? " nonsolid " : "") +
+         * (isLiquid(types[i]) ? " liquid " : "")); } }
          */
 
         // We need to know what is considered food for the instanteat check
@@ -186,7 +191,9 @@ public class CheckUtil {
     }
 
     /**
-     * Ask NoCheat what it thinks about a certain location. Is it a place where a player can safely stand, should it be considered as being inside a liquid etc.
+     * Ask NoCheat what it thinks about a certain location. Is it a place where
+     * a player can safely stand, should it be considered as being inside a
+     * liquid etc.
      * 
      * @param world
      *            The world the coordinates belong to
@@ -223,7 +230,8 @@ public class CheckUtil {
     }
 
     /**
-     * Evaluate a location by only looking at a specific "column" of the map to find out if that "column" would allow a player to stand, swim etc. there
+     * Evaluate a location by only looking at a specific "column" of the map to
+     * find out if that "column" would allow a player to stand, swim etc. there
      * 
      * @param world
      * @param x
@@ -306,7 +314,8 @@ public class CheckUtil {
     }
 
     /**
-     * Personal Rounding function to determine if a player is still touching a block or not
+     * Personal Rounding function to determine if a player is still touching a
+     * block or not
      * 
      * @param d1
      * @return
@@ -322,7 +331,8 @@ public class CheckUtil {
     }
 
     /**
-     * Personal Rounding function to determine if a player is still touching a block or not
+     * Personal Rounding function to determine if a player is still touching a
+     * block or not
      * 
      * @param d1
      * @return

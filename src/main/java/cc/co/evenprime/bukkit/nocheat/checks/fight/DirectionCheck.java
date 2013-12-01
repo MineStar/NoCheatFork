@@ -2,8 +2,8 @@ package cc.co.evenprime.bukkit.nocheat.checks.fight;
 
 import java.util.Locale;
 
-import net.minecraft.server.v1_6_R2.Entity;
-import net.minecraft.server.v1_6_R2.EntityComplexPart;
+import net.minecraft.server.v1_7_R1.Entity;
+import net.minecraft.server.v1_7_R1.EntityComplexPart;
 import cc.co.evenprime.bukkit.nocheat.NoCheat;
 import cc.co.evenprime.bukkit.nocheat.NoCheatPlayer;
 import cc.co.evenprime.bukkit.nocheat.actions.ParameterName;
@@ -12,7 +12,8 @@ import cc.co.evenprime.bukkit.nocheat.config.Permissions;
 import cc.co.evenprime.bukkit.nocheat.data.Statistics.Id;
 
 /**
- * The DirectionCheck will find out if a player tried to interact with something that's not in his field of view.
+ * The DirectionCheck will find out if a player tried to interact with something
+ * that's not in his field of view.
  * 
  */
 public class DirectionCheck extends FightCheck {

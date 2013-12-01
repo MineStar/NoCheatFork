@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.bukkit.craftbukkit.v1_6_R2.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_6_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_7_R1.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_7_R1.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -112,7 +112,8 @@ public class FightCheckListener implements Listener, EventManager {
     }
 
     /**
-     * A player attacked something with DamageCause ENTITY_ATTACK. That's most likely what we want to really check.
+     * A player attacked something with DamageCause ENTITY_ATTACK. That's most
+     * likely what we want to really check.
      * 
      * @param event
      *            The EntityDamageByEntityEvent
@@ -153,7 +154,10 @@ public class FightCheckListener implements Listener, EventManager {
     }
 
     /**
-     * There is an unofficial agreement that if a plugin wants an attack to not get checked by NoCheat, it either has to use a Damage type different from ENTITY_ATTACK or fire an event with damage type CUSTOM and damage 0 directly before the to-be-ignored event.
+     * There is an unofficial agreement that if a plugin wants an attack to not
+     * get checked by NoCheat, it either has to use a Damage type different from
+     * ENTITY_ATTACK or fire an event with damage type CUSTOM and damage 0
+     * directly before the to-be-ignored event.
      * 
      * @param event
      *            The EntityDamageByEntityEvent
@@ -173,7 +177,8 @@ public class FightCheckListener implements Listener, EventManager {
     }
 
     /**
-     * We listen to death events to prevent a very specific method of doing godmode.
+     * We listen to death events to prevent a very specific method of doing
+     * godmode.
      * 
      * @param event
      *            The EntityDeathEvent

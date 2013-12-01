@@ -2,8 +2,8 @@ package cc.co.evenprime.bukkit.nocheat.checks.fight;
 
 import java.util.Locale;
 
-import net.minecraft.server.v1_6_R2.Entity;
-import net.minecraft.server.v1_6_R2.EntityComplexPart;
+import net.minecraft.server.v1_7_R1.Entity;
+import net.minecraft.server.v1_7_R1.EntityComplexPart;
 import cc.co.evenprime.bukkit.nocheat.NoCheat;
 import cc.co.evenprime.bukkit.nocheat.NoCheatPlayer;
 import cc.co.evenprime.bukkit.nocheat.actions.ParameterName;
@@ -12,7 +12,8 @@ import cc.co.evenprime.bukkit.nocheat.config.Permissions;
 import cc.co.evenprime.bukkit.nocheat.data.Statistics.Id;
 
 /**
- * The reach check will find out if a player interacts with something that's too far away
+ * The reach check will find out if a player interacts with something that's too
+ * far away
  * 
  */
 public class ReachCheck extends FightCheck {
