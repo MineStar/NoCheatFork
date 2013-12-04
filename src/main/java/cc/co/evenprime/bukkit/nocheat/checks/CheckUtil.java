@@ -163,6 +163,7 @@ public class CheckUtil {
 
         // Player can stand on and "in" lilipads
         types[Material.WATER_LILY.getId()] = SOLID | NONSOLID;
+        types[Material.SNOW.getId()] = SOLID | NONSOLID;
 
         /*
          * for(int i = 0; i < 256; i++) { if(Block.byId[i] != null) {
