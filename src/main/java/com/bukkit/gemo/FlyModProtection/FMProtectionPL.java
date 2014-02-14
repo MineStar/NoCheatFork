@@ -72,7 +72,7 @@ public class FMProtectionPL implements Listener {
     }
 
     private void doZoneCheck(Player player, Location from, Location to) {
-        this.doZoneCheck(player, from, to);
+        this.doZoneCheck(player, from, to, false);
     }
 
     private void doZoneCheck(Player player, Location from, Location to, boolean force) {
@@ -113,10 +113,6 @@ public class FMProtectionPL implements Listener {
         extTime += (Math.random() * (500 - 1500));
         timeMap.put(player.getName(), extTime);
 
-        // IN SPACEMAP = RETURN
-        if (to.getWorld().getName().equalsIgnoreCase("space"))
-            return;
-
         // GET NEW CHUNK
         Chunk chunk = to.getBlock().getChunk();
         if (!currentChunks.containsKey(player.getName())) {
@@ -124,7 +120,7 @@ public class FMProtectionPL implements Listener {
         }
 
         // SAME CHUNK = RETURN
-        if (currentChunks.get(player.getName()).isInChunk(chunk)) {
+        if (!force && currentChunks.get(player.getName()).isInChunk(chunk)) {
             return;
         }
 
@@ -217,6 +213,6 @@ public class FMProtectionPL implements Listener {
         long time = System.currentTimeMillis();
         long extTime = time;
         timeMap.put(event.getPlayer().getName(), extTime);
-        this.doZoneCheck(event.getPlayer(), event.getFrom(), event.getTo());
+        this.doZoneCheck(event.getPlayer(), event.getFrom(), event.getTo(), true);
     }
 }
