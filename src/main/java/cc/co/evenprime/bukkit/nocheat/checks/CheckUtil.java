@@ -108,12 +108,12 @@ public class CheckUtil {
 
             // Everything unknown is considered nonsolid and solid
             types[i] = NONSOLID | SOLID;
-            if (Block.REGISTRY != null) {
-                Block b = (Block) Block.REGISTRY.a(i);
-                if (b.getMaterial().isSolid()) {
+
+            if (Material.getMaterial(i) != null) {
+                if (Material.getMaterial(i).isSolid()) {
                     // STONE, CAKE, LEAFS, ...
                     types[i] = SOLID;
-                } else if (b.getMaterial().isLiquid()) {
+                } else if (i >= 8 && i <= 11) {
                     // WATER, LAVA, ...
                     types[i] = LIQUID;
                 } else {

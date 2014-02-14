@@ -201,6 +201,7 @@ public class FMProtectionPL implements Listener {
         long extTime = time;
         extTime += (Math.random() * (3000 - 1000));
         timeMap.put(event.getPlayer().getName(), extTime);
+        this.doZoneCheck(event.getPlayer(), event.getPlayer().getLocation(), event.getPlayer().getLocation());
     }
 
     @EventHandler
