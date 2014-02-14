@@ -72,6 +72,10 @@ public class FMProtectionPL implements Listener {
     }
 
     private void doZoneCheck(Player player, Location from, Location to) {
+        this.doZoneCheck(player, from, to);
+    }
+
+    private void doZoneCheck(Player player, Location from, Location to, boolean force) {
         if (UtilPermissions.playerCanUseCommand(player, "fly.allow")) {
             Boolean forceCheck = MinestarCore.getPlayer(player.getPlayer()).getBoolean("flight.forceCheck");
             if (forceCheck == null) {
@@ -90,7 +94,7 @@ public class FMProtectionPL implements Listener {
         }
 
         // CHECK TIME
-        if (System.currentTimeMillis() <= timeMap.get(player.getName())) {
+        if (!force && System.currentTimeMillis() <= timeMap.get(player.getName())) {
             return;
         }
 
@@ -199,9 +203,8 @@ public class FMProtectionPL implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         long time = System.currentTimeMillis();
         long extTime = time;
-        extTime += (Math.random() * (3000 - 1000));
         timeMap.put(event.getPlayer().getName(), extTime);
-        this.doZoneCheck(event.getPlayer(), event.getPlayer().getLocation(), event.getPlayer().getLocation());
+        this.doZoneCheck(event.getPlayer(), event.getPlayer().getLocation(), event.getPlayer().getLocation(), true);
     }
 
     @EventHandler
@@ -211,6 +214,9 @@ public class FMProtectionPL implements Listener {
 
     @EventHandler
     public void onPlayerTeleport(PlayerTeleportEvent event) {
+        long time = System.currentTimeMillis();
+        long extTime = time;
+        timeMap.put(event.getPlayer().getName(), extTime);
         this.doZoneCheck(event.getPlayer(), event.getFrom(), event.getTo());
     }
 }
