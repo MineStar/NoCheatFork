@@ -2,8 +2,8 @@ package cc.co.evenprime.bukkit.nocheat.checks.fight;
 
 import java.util.Locale;
 
-import net.minecraft.server.v1_7_R1.Entity;
-import net.minecraft.server.v1_7_R1.EntityComplexPart;
+import net.minecraft.server.v1_7_R2.Entity;
+import net.minecraft.server.v1_7_R2.EntityComplexPart;
 import cc.co.evenprime.bukkit.nocheat.NoCheat;
 import cc.co.evenprime.bukkit.nocheat.NoCheatPlayer;
 import cc.co.evenprime.bukkit.nocheat.actions.ParameterName;
