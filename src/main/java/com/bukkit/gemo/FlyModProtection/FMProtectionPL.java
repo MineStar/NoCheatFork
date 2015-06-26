@@ -1,5 +1,6 @@
 package com.bukkit.gemo.FlyModProtection;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.TreeMap;
 
@@ -8,7 +9,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_7_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -53,7 +54,7 @@ public class FMProtectionPL implements Listener {
 
     // GET PLAYER
     public static Player getPlayer(String name) {
-        Player[] pList = Bukkit.getOnlinePlayers();
+        Collection<? extends Player> pList = Bukkit.getOnlinePlayers();
         for (Player player : pList) {
             if (player.getName().equalsIgnoreCase(name))
                 return player;

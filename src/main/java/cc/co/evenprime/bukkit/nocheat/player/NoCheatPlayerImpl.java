@@ -1,10 +1,10 @@
 package cc.co.evenprime.bukkit.nocheat.player;
 
-import net.minecraft.server.v1_7_R2.EntityPlayer;
-import net.minecraft.server.v1_7_R2.MobEffectList;
+import net.minecraft.server.v1_8_R3.EntityPlayer;
+import net.minecraft.server.v1_8_R3.MobEffectList;
 
 import org.bukkit.GameMode;
-import org.bukkit.craftbukkit.v1_7_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Player;
 
@@ -125,8 +125,6 @@ public class NoCheatPlayerImpl implements NoCheatPlayer {
 
     @Override
     public void dealFallDamage() {
-        EntityPlayer p = ((CraftPlayer) player).getHandle();
-        p.b(0D, true);
 
     }
 }

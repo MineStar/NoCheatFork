@@ -3,8 +3,6 @@ package cc.co.evenprime.bukkit.nocheat.checks;
 import java.util.HashSet;
 import java.util.Set;
 
-import net.minecraft.server.v1_7_R2.Block;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;

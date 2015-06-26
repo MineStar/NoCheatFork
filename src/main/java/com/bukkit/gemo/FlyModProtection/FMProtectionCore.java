@@ -2,6 +2,7 @@ package com.bukkit.gemo.FlyModProtection;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -180,7 +181,7 @@ public class FMProtectionCore {
 
     // GET PLAYER
     public static Player getPlayer(String name) {
-        Player[] pList = Bukkit.getOnlinePlayers();
+        Collection<? extends Player> pList = Bukkit.getOnlinePlayers();
         for (Player player : pList) {
             if (player.getName().equalsIgnoreCase(name))
                 return player;

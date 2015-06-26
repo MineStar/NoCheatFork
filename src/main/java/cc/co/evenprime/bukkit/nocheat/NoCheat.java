@@ -19,7 +19,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import cc.co.evenprime.bukkit.nocheat.checks.WorkaroundsListener;
 import cc.co.evenprime.bukkit.nocheat.checks.blockbreak.BlockBreakCheckListener;
 import cc.co.evenprime.bukkit.nocheat.checks.blockplace.BlockPlaceCheckListener;
-import cc.co.evenprime.bukkit.nocheat.checks.fight.FightCheckListener;
 import cc.co.evenprime.bukkit.nocheat.checks.inventory.InventoryCheckListener;
 import cc.co.evenprime.bukkit.nocheat.checks.moving.MovingCheckListener;
 import cc.co.evenprime.bukkit.nocheat.command.CommandHandler;
@@ -37,7 +36,8 @@ import com.bukkit.gemo.FlyModProtection.FMProtectionCore;
  * 
  * NoCheat
  * 
- * Check various player events for their plausibility and log/deny them/react to them based on configuration
+ * Check various player events for their plausibility and log/deny them/react to
+ * them based on configuration
  */
 public class NoCheat extends JavaPlugin implements Listener {
 
@@ -95,7 +95,6 @@ public class NoCheat extends JavaPlugin implements Listener {
         eventManagers.add(new WorkaroundsListener());
         eventManagers.add(new BlockBreakCheckListener(this));
         eventManagers.add(new BlockPlaceCheckListener(this));
-        eventManagers.add(new FightCheckListener(this));
         eventManagers.add(new InventoryCheckListener(this));
 
         // Then set up a task to monitor server lag
@@ -156,7 +155,8 @@ public class NoCheat extends JavaPlugin implements Listener {
     }
 
     /**
-     * Call this periodically to walk over the stored data map and remove old/unused entries
+     * Call this periodically to walk over the stored data map and remove
+     * old/unused entries
      * 
      */
     public void cleanDataMap() {
@@ -164,7 +164,10 @@ public class NoCheat extends JavaPlugin implements Listener {
     }
 
     /**
-     * An interface method usable by other plugins to collect information about a player. It will include the plugin version, two timestamps (beginning and end of data collection for that player), and various data from checks)
+     * An interface method usable by other plugins to collect information about
+     * a player. It will include the plugin version, two timestamps (beginning
+     * and end of data collection for that player), and various data from
+     * checks)
      * 
      * @param playerName
      *            a player name
