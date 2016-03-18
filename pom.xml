@@ -7,7 +7,7 @@
 	<repositories>
 		<repository>
 			<id>MinestarNexus</id>
-			<url>hhttp://nexus.outi-networks.de/content/groups/public/</url>
+			<url>http://nexus.outi-networks.de/content/groups/public/</url>
 		</repository>
 	</repositories>	
 	<distributionManagement>
