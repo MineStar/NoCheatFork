@@ -1,11 +1,9 @@
 package cc.co.evenprime.bukkit.nocheat.checks;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
@@ -82,112 +80,8 @@ public class CheckUtil {
     // All liquids are "nonsolid" too
     private static final int LIQUID = 4 | NONSOLID; // 0x00000101
 
-    // All ladders are "nonsolid" and "solid" too
-    private static final int LADDER = 8 | NONSOLID | SOLID; // 0x00001011
-
-    // All fences are solid - fences are treated specially due
-    // to being 1.5 blocks high
-    private static final int FENCE = 16 | SOLID | NONSOLID; // 0x00010011
-
     private static final int INGROUND = 128;
     private static final int ONGROUND = 256;
-
-    // Until I can think of a better way to determine if a block is solid or
-    // not, this is what I'll do
-    private static final int types[];
-
-    private static final Set<Material> foods = new HashSet<Material>();
-
-    static {
-        types = new int[256];
-
-        // Find and define properties of all other blocks
-        for (int i = 0; i < types.length; i++) {
-
-            // Everything unknown is considered nonsolid and solid
-            types[i] = NONSOLID | SOLID;
-
-            if (Material.getMaterial(i) != null) {
-                if (Material.getMaterial(i).isSolid()) {
-                    // STONE, CAKE, LEAFS, ...
-                    types[i] = SOLID;
-                } else if (i >= 8 && i <= 11) {
-                    // WATER, LAVA, ...
-                    types[i] = LIQUID;
-                } else {
-                    // AIR, SAPLINGS, ...
-                    types[i] = NONSOLID;
-                }
-            }
-        }
-
-        // Some exceptions where the above method fails
-
-        // du'h
-        types[Material.AIR.getId()] = NONSOLID;
-
-        // Webs slow down a players fall extremely, so it makes
-        // sense to treat them as optionally solid
-        types[Material.WEB.getId()] = SOLID | NONSOLID;
-
-        // Obvious
-        types[Material.LADDER.getId()] = LADDER;
-        types[Material.VINE.getId()] = LADDER;
-        types[Material.FENCE.getId()] = FENCE;
-        types[Material.FENCE_GATE.getId()] = FENCE;
-        types[Material.NETHER_FENCE.getId()] = FENCE;
-
-        // These are sometimes solid, sometimes not
-        types[Material.IRON_FENCE.getId()] = SOLID | NONSOLID;
-        types[Material.THIN_GLASS.getId()] = SOLID | NONSOLID;
-
-        // Signs are NOT solid, despite the game claiming they are
-        types[Material.WALL_SIGN.getId()] = NONSOLID;
-        types[Material.SIGN_POST.getId()] = NONSOLID;
-
-        // (trap)doors can be solid or not
-        types[Material.WOODEN_DOOR.getId()] = SOLID | NONSOLID;
-        types[Material.IRON_DOOR_BLOCK.getId()] = SOLID | NONSOLID;
-        types[Material.TRAP_DOOR.getId()] = SOLID | NONSOLID;
-
-        // repeaters are technically half blocks
-        types[Material.DIODE_BLOCK_OFF.getId()] = SOLID | NONSOLID;
-        types[Material.DIODE_BLOCK_ON.getId()] = SOLID | NONSOLID;
-
-        // pressure plates are so slim, you can consider them
-        // nonsolid too
-        types[Material.STONE_PLATE.getId()] = SOLID | NONSOLID;
-        types[Material.WOOD_PLATE.getId()] = SOLID | NONSOLID;
-
-        // Player can stand on and "in" lilipads
-        types[Material.WATER_LILY.getId()] = SOLID | NONSOLID;
-        types[Material.SNOW.getId()] = SOLID | NONSOLID;
-
-        /*
-         * for(int i = 0; i < 256; i++) { if(Block.byId[i] != null) {
-         * System.out.println(Material.getMaterial(i) + (isSolid(types[i]) ?
-         * " solid " : "") + (isNonSolid(types[i]) ? " nonsolid " : "") +
-         * (isLiquid(types[i]) ? " liquid " : "")); } }
-         */
-
-        // We need to know what is considered food for the instanteat check
-        foods.add(Material.APPLE);
-        foods.add(Material.BREAD);
-        foods.add(Material.COOKED_BEEF);
-        foods.add(Material.COOKED_CHICKEN);
-        foods.add(Material.COOKED_FISH);
-        foods.add(Material.COOKIE);
-        foods.add(Material.GOLDEN_APPLE);
-        foods.add(Material.GRILLED_PORK);
-        foods.add(Material.MELON);
-        foods.add(Material.MUSHROOM_SOUP);
-        foods.add(Material.PORK);
-        foods.add(Material.RAW_BEEF);
-        foods.add(Material.RAW_CHICKEN);
-        foods.add(Material.RAW_FISH);
-        foods.add(Material.ROTTEN_FLESH);
-        foods.add(Material.SPIDER_EYE);
-    }
 
     /**
      * Ask NoCheat what it thinks about a certain location. Is it a place where
@@ -220,7 +114,7 @@ public class CheckUtil {
 
         if (!isInGround(result)) {
             // Original location: X, Z (allow standing in walls this time)
-            if (isSolid(types[world.getBlockTypeIdAt(Location.locToBlock(location.x), Location.locToBlock(location.y), Location.locToBlock(location.z))])) {
+            if (world.getBlockAt(Location.locToBlock(location.x), Location.locToBlock(location.y), Location.locToBlock(location.z)).getType().isSolid()) {
                 result |= INGROUND;
             }
         }
@@ -242,46 +136,46 @@ public class CheckUtil {
 
         // First we need to know about the block itself, the block
         // below it and the block above it
-        final int top = types[world.getBlockTypeIdAt(x, y + 1, z)];
-        final int base = types[world.getBlockTypeIdAt(x, y, z)];
-        final int below = types[world.getBlockTypeIdAt(x, y - 1, z)];
+        final Block top = world.getBlockAt(x, y + 1, z);
+        final Block base = world.getBlockAt(x, y, z);
+        final Block below = world.getBlockAt(x, y - 1, z);
 
         int type = 0;
         // Special case: Standing on a fence
         // Behave as if there is a block on top of the fence
-        if ((below == FENCE) && base != FENCE && isNonSolid(top)) {
+        if ((below.getType() == Material.FENCE) && base.getType() != Material.FENCE && top.getType().isSolid()) {
             type = INGROUND;
         }
 
         // Special case: Fence
         // Being a bit above a fence
-        else if (below != FENCE && isNonSolid(base) && types[world.getBlockTypeIdAt(x, y - 2, z)] == FENCE) {
+        else if (below.getType() != Material.FENCE && !base.getType().isSolid() && world.getBlockAt(x, y - 2, z).getType() == Material.FENCE) {
             type = ONGROUND;
         }
 
-        else if (isNonSolid(top)) {
+        else if (!top.getType().isSolid()) {
             // Simplest (and most likely) case:
             // Below the player is a solid block
-            if (isSolid(below) && isNonSolid(base)) {
+            if (below.getType().isSolid() && !base.getType().isSolid()) {
                 type = ONGROUND;
             }
 
             // Next (likely) case:
             // There is a ladder
-            else if (isLadder(base) || isLadder(top)) {
+            else if (base.getType() == Material.LADDER || top.getType() == Material.LADDER) {
                 type = ONGROUND;
             }
 
             // Next (likely) case:
             // At least the block the player stands
             // in is solid
-            else if (isSolid(base)) {
+            else if (base.getType().isSolid()) {
                 type = INGROUND;
             }
         }
 
         // (In every case, check for water)
-        if (isLiquid(base) || isLiquid(top)) {
+        if (base.isLiquid() || top.isLiquid()) {
             type |= LIQUID | INGROUND;
         }
 
@@ -294,14 +188,6 @@ public class CheckUtil {
 
     public static final boolean isLiquid(final int value) {
         return (value & LIQUID) == LIQUID;
-    }
-
-    private static final boolean isNonSolid(final int value) {
-        return ((value & NONSOLID) == NONSOLID);
-    }
-
-    private static final boolean isLadder(final int value) {
-        return ((value & LADDER) == LADDER);
     }
 
     public static final boolean isOnGround(final int fromType) {
@@ -346,14 +232,10 @@ public class CheckUtil {
             return (int) floor;
     }
 
-    public static int getType(final int typeId) {
-        return types[typeId];
-    }
-
     public static boolean isFood(ItemStack item) {
         if (item == null)
             return false;
-        return foods.contains(item.getType());
+        return item.getType().isEdible();
     }
 
 }

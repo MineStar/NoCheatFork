@@ -21,7 +21,6 @@ import org.bukkit.util.Vector;
 import cc.co.evenprime.bukkit.nocheat.EventManager;
 import cc.co.evenprime.bukkit.nocheat.NoCheat;
 import cc.co.evenprime.bukkit.nocheat.NoCheatPlayer;
-import cc.co.evenprime.bukkit.nocheat.checks.CheckUtil;
 import cc.co.evenprime.bukkit.nocheat.config.ConfigurationCacheStore;
 import cc.co.evenprime.bukkit.nocheat.config.Permissions;
 import cc.co.evenprime.bukkit.nocheat.data.PreciseLocation;
@@ -95,8 +94,7 @@ public class MovingCheckListener implements Listener, EventManager {
         // Was the block below the player?
         if (Math.abs(playerX - block.getX()) <= 1 && Math.abs(playerZ - block.getZ()) <= 1 && playerY - blockY >= 0 && playerY - blockY <= 2) {
             // yes
-            final int type = CheckUtil.getType(block.getTypeId());
-            if (CheckUtil.isSolid(type) || CheckUtil.isLiquid(type)) {
+            if(block.isLiquid() || block.getType().isSolid()){
                 if (blockY + 1 >= data.runflySetBackPoint.y) {
                     data.runflySetBackPoint.y = (blockY + 1);
                     data.jumpPhase = 0;
