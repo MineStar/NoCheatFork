@@ -1,6 +1,6 @@
 package cc.co.evenprime.bukkit.nocheat.checks.fight;
 
-import net.minecraft.server.v1_8_R3.Entity;
+import net.minecraft.server.v1_10_R1.Entity;
 import cc.co.evenprime.bukkit.nocheat.DataItem;
 
 /**

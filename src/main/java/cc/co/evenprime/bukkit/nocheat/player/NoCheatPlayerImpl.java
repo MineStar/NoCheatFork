@@ -1,10 +1,10 @@
 package cc.co.evenprime.bukkit.nocheat.player;
 
-import net.minecraft.server.v1_8_R3.EntityPlayer;
-import net.minecraft.server.v1_8_R3.MobEffectList;
+import net.minecraft.server.v1_10_R1.EntityPlayer;
+import net.minecraft.server.v1_10_R1.MobEffectList;
 
 import org.bukkit.GameMode;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Player;
 
@@ -18,6 +18,9 @@ import com.bukkit.gemo.utils.UtilPermissions;
 
 public class NoCheatPlayerImpl implements NoCheatPlayer {
 
+    private final MobEffectList JUMP;
+    private final MobEffectList FASTER_MOVEMENT;
+    
     private Player player;
     private final NoCheat plugin;
     private final DataStore data;
@@ -33,6 +36,15 @@ public class NoCheatPlayerImpl implements NoCheatPlayer {
         this.history = new ExecutionHistory();
 
         this.lastUsedTime = System.currentTimeMillis();
+        
+        JUMP = MobEffectList.getByName("jump_boost");
+        if (JUMP == null) {
+            throw new RuntimeException();
+        }
+        FASTER_MOVEMENT = MobEffectList.getByName("speed");
+        if (FASTER_MOVEMENT == null) {
+            throw new RuntimeException();
+}
     }
 
     public void refresh(Player player) {
@@ -74,9 +86,9 @@ public class NoCheatPlayerImpl implements NoCheatPlayer {
 
     public float getSpeedAmplifier() {
         EntityPlayer ep = ((CraftPlayer) player).getHandle();
-        if (ep.hasEffect(MobEffectList.FASTER_MOVEMENT)) {
+        if (ep.hasEffect(FASTER_MOVEMENT)) {
             // Taken directly from Minecraft code, should work
-            return 1.0F + 0.2F * (float) (ep.getEffect(MobEffectList.FASTER_MOVEMENT).getAmplifier() + 1);
+            return 1.0F + 0.2F * (float) (ep.getEffect(FASTER_MOVEMENT).getAmplifier() + 1);
         } else {
             return 1.0F;
         }
@@ -85,13 +97,13 @@ public class NoCheatPlayerImpl implements NoCheatPlayer {
     @Override
     public float getJumpAmplifier() {
         EntityPlayer ep = ((CraftPlayer) player).getHandle();
-        if (ep.hasEffect(MobEffectList.JUMP)) {
-            int amp = ep.getEffect(MobEffectList.JUMP).getAmplifier();
+        if (ep.hasEffect(JUMP)) {
+            int amp = ep.getEffect(JUMP).getAmplifier();
             // Very rough estimates only
             if (amp > 20) {
-                return 1.5F * (float) (ep.getEffect(MobEffectList.JUMP).getAmplifier() + 1);
+                return 1.5F * (float) (ep.getEffect(JUMP).getAmplifier() + 1);
             } else {
-                return 1.2F * (float) (ep.getEffect(MobEffectList.JUMP).getAmplifier() + 1);
+                return 1.2F * (float) (ep.getEffect(JUMP).getAmplifier() + 1);
             }
         } else {
             return 1.0F;
